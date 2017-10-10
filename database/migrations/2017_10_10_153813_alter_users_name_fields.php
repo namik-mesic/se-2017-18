@@ -15,11 +15,12 @@ class AlterUsersNameFields extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
+            /*
             $table->string('first_name');
             $table->string('last_name');
 
             $table->dropColumn('name');
-
+            */
         });
     }
 
@@ -32,10 +33,12 @@ class AlterUsersNameFields extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
 
+            /*
             $table->string('name');
 
             $table->dropColumn('first_name');
             $table->dropColumn('last_name');
+            */
 
         });
     }
