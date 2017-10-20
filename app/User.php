@@ -26,4 +26,22 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Relation to get all conversations of user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function conversations(){
+        return $this->belongsToMany('App\Conversation', 'chat_participant');
+    }
+
+    /**
+     * Relation to get all messages of user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\hasMany
+     */
+    public function messages(){
+        return $this->hasMany('App\Message');
+    }
 }
