@@ -37,7 +37,7 @@
                                 <label for="description">
                                     Description
                                 </label>
-                                <input class="form-control" type="email" required name="description" id="description">
+                                <input class="form-control" type="text" required name="description" id="description">
                             </div>
 
                             <div class="form-group">

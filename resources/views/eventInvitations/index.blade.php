@@ -10,8 +10,8 @@
                             Events index
                         </div>
 
-                        <a href="{{ action('EventController@create') }}" class="pull-right btn btn-success btn-sm">
-                            Create event
+                        <a href="{{ action('EventInvitationsController@create') }}" class="pull-right btn btn-success btn-sm">
+                            Create event invitation
                         </a>
 
                         <div class="clearfix"></div>
@@ -31,13 +31,12 @@
                                     ID
                                 </td>
                                 <td>
-                                    Event name
+                                    Event
                                 </td>
                                 <td>
-                                    Event description
+                                    User
                                 </td>
-                                <td>Place</td>
-                                <td>Date and time</td>
+                                <td>Response</td>
                             </tr>
                             </thead>
                             <tbody>
@@ -47,14 +46,13 @@
                                         {{ $event->id }}
                                     </td>
                                     <td>
-                                        {{ $event->name }}
+                                        {{ $event->eventId }}
                                     </td>
                                     <td>
-                                        {{ $event->description }}
+                                        {{ $event->userId }}
                                     </td>
-                                    <td>{{ $event->place }}</td>
                                     <td>
-                                        {{ $event->date }} {{ $event->hour }}
+                                        {{ $event->response }}
                                     </td>
                                 </tr>
                             @endforeach
