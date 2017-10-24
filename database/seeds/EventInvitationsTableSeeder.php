@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use App\EventInvitation;
 
-class EventTableSeeder extends Seeder
+class EventInvitationsTableSeeder extends Seeder
 {
     public function run()
     {
