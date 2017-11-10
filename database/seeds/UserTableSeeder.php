@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
 
 class UserTableSeeder extends Seeder
 {
@@ -12,10 +11,29 @@ class UserTableSeeder extends Seeder
 //
 //        User::query()
 //            ->delete();
+        DB::table('chat_participant')->delete();
+        DB::table('messages')->delete();
+        DB::table('users')->delete();
+        DB::table('conversations')->delete();
 
-        DB::table('users')
-            ->delete();
+        factory(App\User::class, 50)->create();
 
-        factory(App\User::class)->times(50)->create();
+        $users = App\User::all();
+
+        factory(App\Conversation::class, 100)->create()->each(function ($conversation) use ($users) {
+            $conversation->users()->attach(
+                $users->random(rand(1,4))->pluck('id')
+            );
+        });
+
+        $participants = DB::table('chat_participant')->get();
+
+        foreach($participants as $participant) {
+            factory(App\Message::class, 2)->create([
+                'user_id' => $participant->user_id,
+                'conversation_id' => $participant->conversation_id
+            ]);
+        }
+
     }
 }
