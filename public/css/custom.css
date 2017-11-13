@@ -1,0 +1,76 @@
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-glyphicons.css");
+.custom-frame {
+    padding: 10px;
+    background: #fff;
+    border-radius: 5%;
+    margin-bottom: 5%;
+
+}
+
+.price {
+    float: right;
+    font-weight: bold;
+}
+
+.card-overflow {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.custom-card {
+    width: 33%;
+    white-space: nowrap;
+
+}
+
+.custom-pagination {
+    display: block;
+    text-align: center
+}
+
+.custom-cart {
+    float: right;
+    background: white;
+    border-radius: 10px;
+    width: 22%;
+    padding: 10px;
+}
+
+.custom-flex {
+    margin-right: 25%;
+}
+
+.custom-red-colors {
+    color: #bf3125;
+    border: 0.5px solid #bf3125;
+}
+
+.custom-red-text-colors {
+    color: #bf3125;
+}
+
+.custom-table {
+    width: 100%;
+}
+
+.create-offer {
+    width: 33%;
+}
+
+a.btn:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform: scale(1.1);
+    -o-transform: scale(1.1);
+}
+a.btn {
+    -webkit-transform: scale(0.8);
+    -moz-transform: scale(0.8);
+    -o-transform: scale(0.8);
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -o-transition-duration: 0.5s;
+}
+
+.custom-add {
+    padding: 10px;
+}

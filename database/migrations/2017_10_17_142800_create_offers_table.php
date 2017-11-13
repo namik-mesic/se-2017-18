@@ -15,7 +15,7 @@ class CreateOffersTable extends Migration
     {
         Schema::create('offers', function (Blueprint $table) {
 
-                $table->increments('id');
+            $table->increments('id');
             $table->timestamps();
 
             $table->string('meal');
