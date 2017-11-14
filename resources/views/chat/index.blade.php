@@ -1,21 +1,52 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link href="{{ asset('css/chat.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')
     <div id="chat" class="container-fluid full-width full-height full-height-no-navbar">
         <div class="row row-flex row-flex-wrap full-height">
-            <div id="my-panel" class="col-md-3 no-padding blue-background">
+            <div id="my-panel" class="col-md-3 no-padding blue-background flex-col">
                 <div class="top-icons row-flex flex-start">
                     <div class="top-icon">
-                        <i class="fa fa-cog"></i>
+                        <span class="icon-adjustments" data-toggle="tooltip" data-placement="bottom" title="Chat settings"></span>
                     </div>
                     <div class="top-icon text-right">
-                        <i class="fa fa-bars"></i>
+                        <span class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Hide sidebar"></span>
+                    </div>
+                </div>
+                <div class="user-data row-flex flex-start flex-col">
+                    <div class="user-image-frame user-image-big">
+                        <div class="user-image">
+                            <div class="user-image-hover">
+                                <span class="icon-tools" data-toggle="tooltip" data-placement="bottom" title="Change image"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="user-name text-center">
+                        {{ Auth::user()->name }}
+                    </div>
+                    <div class="user-email text-center">
+                        {{ Auth::user()->email }}
+                    </div>
+                </div>
+                <div class="user-message-types row-flex flex-start flex-col">
+                    <div class="type-list active">
+                        <span class="icon-chat mr15"></span> Conversation groups
+                        <div class="type-list-items">
+                            <div class="type-list-item row-flex flex-center">
+                                <div class="type-circle friends"></div>
+                                <div class="type-name">Friends</div>
+                                <div class="type-new-messages friends">
+                                    25
+                                </div>
+                            </div>
+                            <div class="type-list-item">Work</div>
+                            <div class="type-list-item">Important</div>
+                            <div class="type-list-item">Spam</div>
+                            <div class="type-list-item">Blocked</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -48,6 +79,8 @@
                     <p class="no-data">You do not have any conversations yet.</p>
                 @endif
             </div>
+        </div>
+    </div>
 @endsection
 
 @section('scripts')
