@@ -18,7 +18,9 @@ $(document).ready(function () {
         var quantityElement = $(this).parent().parent().find('input[name="quantity[]"]');
 
         var quantity = parseInt(quantityElement.val());
-        quantityElement.val(quantity - 1);
+
+        if (quantity > 1)
+            quantityElement.val(quantity - 1);
     });
 
 });

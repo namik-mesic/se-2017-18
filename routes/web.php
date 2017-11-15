@@ -33,4 +33,4 @@ Route::get('/offer/{offer}', 'OfferController@show');
 
 Route::post('/offer/update/{offer}', 'OfferController@update');
 
-Route::delete('/offer/{offer}', 'OfferController@delete');
+Route::delete('/offer/delete/{offer}', 'OfferController@delete');

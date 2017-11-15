@@ -1,10 +1,11 @@
 @import url("//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-glyphicons.css");
+
 .custom-frame {
     padding: 10px;
     background: #fff;
     border-radius: 5%;
     margin-bottom: 5%;
-
+    border: 0.5px solid #bf3125;
 }
 
 .price {
@@ -20,7 +21,6 @@
 .custom-card {
     width: 33%;
     white-space: nowrap;
-
 }
 
 .custom-pagination {
@@ -62,6 +62,7 @@ a.btn:hover {
     -moz-transform: scale(1.1);
     -o-transform: scale(1.1);
 }
+
 a.btn {
     -webkit-transform: scale(0.8);
     -moz-transform: scale(0.8);
