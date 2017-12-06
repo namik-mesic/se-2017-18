@@ -34,7 +34,8 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->getPaginated(10, $request->get('query'));
+        $users = $this->userRepository
+            ->getPaginated(10, $request->get('query'));
 
         return view('user.index', compact(
             'users'

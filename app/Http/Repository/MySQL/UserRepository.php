@@ -63,6 +63,14 @@ class UserRepository implements UserRepositoryInterface
     }
 
     /**
+     * @return Collection|User[]
+     */
+    public function getAll()
+    {
+        return User::all();
+    }
+
+    /**
      * @param User $user
      * @param Request $request
      * @return User
