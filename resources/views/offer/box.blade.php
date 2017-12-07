@@ -5,7 +5,7 @@
         <input type="hidden" name="_method" value="DELETE">
 
         <button type="submit" href="/offer/delete/{{$offer->id}}" style="float: right">
-            <span class="glyphicon glyphicon-remove"></span>
+            <span class="fa fa-remove"></span>
         </button>
     </form>
 
@@ -32,8 +32,8 @@
                                     <span class="input-group-btn">
                                     <button type="button" data-type="minus" data-field=""
                                             class="quantity-left-minus btn btn-danger btn-number">
-                                        <span class="glyphicon glyphicon-minus">
-                                        </span>
+                                        <i class="fa fa-minus">
+                                        </i>
                                     </button>
                                      </span>
                     <input placeholder="1" name="quantity[]" value="1" min="1" max="10"
@@ -41,7 +41,7 @@
                     <span class="input-group-btn">
                                     <button type="button" data-type="plus" data-field=""
                                             class="quantity-right-plus btn btn-success btn-number">
-                                        <span class="glyphicon glyphicon-plus"></span>
+                                        <i class="fa fa-plus"></i>
                                     </button>
                                       </span>
                 </div>
@@ -52,7 +52,7 @@
         <a href="#" class="btn btn-primary">Add to cart</a>
 
         <a href="offer/edit/{{$offer->id}}" class="btn btn-primary a-btn-slide-text">
-            <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+            <i class="fa fa-edit" aria-hidden="true"></i>
             <span><strong>Edit</strong></span>
         </a>
     </div>

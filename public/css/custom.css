@@ -1,11 +1,13 @@
-@import url("//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-glyphicons.css");
-
 .custom-frame {
     padding: 10px;
     background: #fff;
     border-radius: 5%;
     margin-bottom: 5%;
     border: 0.5px solid #bf3125;
+}
+
+.container {
+    width: 1070px;
 }
 
 .price {
@@ -29,16 +31,11 @@
 }
 
 .custom-cart {
-    float: right;
     background: white;
     border-radius: 10px;
-    width: 22%;
     padding: 10px;
 }
 
-.custom-flex {
-    margin-right: 25%;
-}
 
 .custom-red-colors {
     color: #bf3125;
@@ -51,10 +48,6 @@
 
 .custom-table {
     width: 100%;
-}
-
-.create-offer {
-    width: 33%;
 }
 
 a.btn:hover {
@@ -74,4 +67,11 @@ a.btn {
 
 .custom-add {
     padding: 10px;
+}
+.custom-offer {
+    padding-bottom: 20%;
+}
+
+.custom-h1{
+    margin-top: 0;
 }

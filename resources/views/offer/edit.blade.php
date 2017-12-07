@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container">
-        <div class="create-offer">
+        <div class="col-xs-5 col-md-6">
             <h1>Edit </h1>
             <hr class="custom-red-colors">
             <form method="post" action="/offer/update/{{$offer->id}}">

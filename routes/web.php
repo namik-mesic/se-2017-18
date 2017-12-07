@@ -34,3 +34,8 @@ Route::get('/offer/{offer}', 'OfferController@show');
 Route::post('/offer/update/{offer}', 'OfferController@update');
 
 Route::delete('/offer/delete/{offer}', 'OfferController@delete');
+
+Route::get('/offer/tags/{tag}', 'TagsController@index') ;
+
+
+//Route::resource('offer', 'OfferController'); restful routing Laravel

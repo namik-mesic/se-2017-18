@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OfferRequest;
 use App\Offer;
 
+use App\Tag;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -16,15 +17,16 @@ class OfferController extends Controller
      */
     public function index()
     {
-        $offers = DB::table('offers')->paginate(15);
+        $offers = Offer::query()->paginate(15);
 
-        return view('offer.index', ['offers' => $offers]);
+        $tags = Tag::selectRaw('name')->get();
+
+        return view('offer.index', compact('offers', 'tags'));
     }
 
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-
     public function create()
     {
         $offer = new Offer;
@@ -109,4 +111,12 @@ class OfferController extends Controller
         $offer->save();
         return redirect()->action('OfferController@index');
     }
+    /*public function search (Request $request)
+    {
+        $keyword = $request->input('srch');
+
+        $offer = Offer::find($keyword);
+
+        return view('offer.index', compact($offer));
+    }*/
 }

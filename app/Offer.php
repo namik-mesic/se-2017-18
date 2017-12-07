@@ -10,8 +10,13 @@ namespace App;
 
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * Class Offer
+ * @package App
+ */
 class Offer extends model
 {
 
@@ -23,5 +28,13 @@ class Offer extends model
         'ingredients',
         'cost',
     ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, 'offer_tag', 'offer_id', 'tag_id');
+    }
 
 }
