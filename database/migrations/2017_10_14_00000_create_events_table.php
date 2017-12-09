@@ -19,7 +19,7 @@ class CreateEventsTable extends Migration
             $table->string('description');
             $table->string('place');
             $table->date('date');
-            $table->number('hour');
+            $table->integer('hour');
             $table->timestamps();
         });
     }

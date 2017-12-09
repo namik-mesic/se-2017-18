@@ -48,17 +48,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="place">
-                                    Place
-                                </label>
-                                <input class="form-control" type="text" required name="place" id="place">
-                            </div>
-
-                            <div class="form-group">
                                 <label for="date">
                                     Date
                                 </label>
-                                <input class="form-control" type="text" required name="date" id="date">
+                                <input class="form-control" type="date" required name="date" id="date">
                             </div>
 
                             <div class="form-group">

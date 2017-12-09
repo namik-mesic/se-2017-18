@@ -21,6 +21,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('user', 'UserController');
 
-Route::resource('/events', 'EventController@index');
+Route::resource('/event', 'EventController');
 
 Route::resource('/eventInvitations', 'EventInvitationsController@index');

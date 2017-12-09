@@ -15,8 +15,7 @@ class CreateEventInvitationsTable extends Migration
     {
         Schema::create('eventInvitations', function (Blueprint $table) {
             $table->increments('id');
-            $table->foreign('eventId')->references('id')->on('events');
-            $table->foreign('userId')->references('id')->on('users');
+            $table->integer('event_id')->references('id')->on('events');
             $table->string('response');
             $table->timestamps();
         });

@@ -40,7 +40,7 @@ class EventController extends Controller
 
         $event = Event::query()->create($data);
 
-        return redirect('index');
+        return redirect('event');
     }
 
 }

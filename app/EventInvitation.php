@@ -9,7 +9,9 @@
 namespace App;
 
 
-class EventInvitation
+use Illuminate\Database\Eloquent\Model;
+
+class EventInvitation extends Model
 {
     protected $fillable = [
         'eventId', 'userId', 'response'
