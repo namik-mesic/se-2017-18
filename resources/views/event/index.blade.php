@@ -3,7 +3,7 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="pull-left">
@@ -11,7 +11,7 @@
                         </div>
 
                         <a href="{{ action('EventController@create') }}" class="pull-right btn btn-success btn-sm">
-                            Create event
+                            New event
                         </a>
 
                         <div class="clearfix"></div>
@@ -37,7 +37,11 @@
                                     Event description
                                 </td>
                                 <td>Place</td>
-                                <td>Date and time</td>
+                                <td>Date</td>
+                                <td>Hour</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -54,7 +58,20 @@
                                     </td>
                                     <td>{{ $event->place }}</td>
                                     <td>
-                                        {{ $event->date }} {{ $event->hour }}
+                                        {{ $event->date }}
+                                    </td>
+                                    <td>{{ $event->hour }}</td>
+                                    <td>
+                                        <a class="btn btn-sm btn-info" href="/event/{{$event->id}}">Show</a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="/event/{{$event->id}}/edit">Edit</a>
+                                    </td>
+                                    <td>
+                                        {{ Form::open(array('url' => 'event/' . $event->id)) }}
+                                        {{ Form::hidden('_method', 'DELETE') }}
+                                        {{ Form::submit('Delete', array('class' => 'btn btn-sm btn-warning')) }}
+                                        {{ Form::close() }}
                                     </td>
                                 </tr>
                             @endforeach
