@@ -111,12 +111,5 @@ class OfferController extends Controller
         $offer->save();
         return redirect()->action('OfferController@index');
     }
-    /*public function search (Request $request)
-    {
-        $keyword = $request->input('srch');
 
-        $offer = Offer::find($keyword);
-
-        return view('offer.index', compact($offer));
-    }*/
 }
