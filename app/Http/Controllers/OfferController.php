@@ -79,7 +79,7 @@ class OfferController extends Controller
 
         return view('offer.show', compact('offer'));
     }
-
+    
     /**
      * @param $id
      * @return RedirectResponse
