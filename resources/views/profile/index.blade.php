@@ -8,11 +8,6 @@
                     <div class="panel-heading">My profile</div>
                     <div class="panel-body">
                         <h1>Hello, {{ Auth::user()->name }}</h1>
-                        @foreach($users as $user)
-                            <div>
-                                {{$user->name}}
-                            </div>
-                        @endforeach
                     </div>
                 </div>
             </div>
