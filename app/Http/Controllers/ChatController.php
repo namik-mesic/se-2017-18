@@ -6,16 +6,18 @@ use App\Http\Repositories\ConversationRepository;
 
 class ChatController extends Controller
 {
-    private $conversationRepositroy;
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @var ConversationRepository
+     */
+    protected $conversationRepositroy;
+
+    /**
+     * Chat controller constructor.
      */
     public function __construct()
     {
         $this->middleware('auth');
-        $this->conversationRepositroy = new ConversationRepository();
+        $this->conversationRepositroy = app(ConversationRepository::class) ;
     }
 
     /**
@@ -23,9 +25,9 @@ class ChatController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function getConversations()
     {
-        $conversations = $this->conversationRepositroy->getConversationsWithoutAuthUser();
+        $conversations = $this->conversationRepositroy->getUsersConversations(Auth::user());
 
         return view('chat.index', [
             'conversations' => $conversations

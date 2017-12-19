@@ -2,11 +2,14 @@
 
 namespace App\Http\Repositories;
 
+use App\User;
+
 interface ConversationRepositoryInterface {
     /**
-     * Get all conversations of auth user that not contain object of auth user.
+     * Get all conversations of user that not contain object of auth user.
      *
-     * @return mixed
+     * @param User $user
+     * @return User
      */
-    public function getConversationsWithoutAuthUser();
+    public function getUsersConversations(User $user);
 }

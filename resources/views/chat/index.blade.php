@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link href="{{ asset('css/chat.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/chat/chat.css') }}" rel="stylesheet">
 @endsection
 
 @section('content')

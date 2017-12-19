@@ -4,11 +4,11 @@
 /* Icon font */
 @font-face {
     font-family: 'icomoon';
-    src:  url('../fonts/chat/icomoon.eot?7atrck');
-    src:  url('../fonts/chat/icomoon.eot?7atrck#iefix') format('embedded-opentype'),
-    url('../fonts/chat/icomoon.ttf?7atrck') format('truetype'),
-    url('../fonts/chat/icomoon.woff?7atrck') format('woff'),
-    url('../fonts/chat/icomoon.svg?7atrck#icomoon') format('svg');
+    src:  url('../../fonts/chat/icomoon.eot?7atrck');
+    src:  url('../../fonts/chat/icomoon.eot?7atrck#iefix') format('embedded-opentype'),
+    url('../../fonts/chat/icomoon.ttf?7atrck') format('truetype'),
+    url('../../fonts/chat/icomoon.woff?7atrck') format('woff'),
+    url('../../fonts/chat/icomoon.svg?7atrck#icomoon') format('svg');
     font-weight: normal;
     font-style: normal;
 }

@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Conversation;
+use App\Http\Repositories\ConversationRepository;
 use Illuminate\Support\Facades\Auth;
 
 class ConversationController extends Controller
 {
     /**
-     * Create a new controller instance.
-     *
-     * @return void
+     * @var ConversationRepository
+     */
+    protected $conversationRepositroy;
+
+    /**
+     * Chat controller constructor.
      */
     public function __construct()
     {
         $this->middleware('auth');
+        $this->conversationRepositroy = app(ConversationRepository::class) ;
     }
 
     /**
@@ -25,11 +28,10 @@ class ConversationController extends Controller
      */
     public function index()
     {
-        $auth_user = Auth::user();
+        $conversations = $this->conversationRepositroy->getUsersConversations(Auth::user());
 
-        $conversations = $auth_user->conversations;
-
-        return view('chat.partials.conversations', [$conversations]);
+        return view('chat.index', [
+            'conversations' => $conversations
+        ]);
     }
-
 }

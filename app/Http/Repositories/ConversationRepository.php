@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Auth;
 
 class ConversationRepository implements ConversationRepositoryInterface {
     /**
-     * Get all conversations of auth user that not contain object of auth user.
+     * Get all conversations of user that not contain object of auth user.
      *
-     * @return mixed
+     * @param User $user
+     * @return User
      */
-    public function getConversationsWithoutAuthUser(){
+    public function getUsersConversations(User $user){
         return User::find(Auth::user()->id)->conversations()->whereHas('messages')->with(
             [
                 'users' => function ($query) {
