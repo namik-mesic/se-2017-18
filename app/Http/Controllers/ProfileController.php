@@ -14,4 +14,13 @@ class ProfileController extends Controller
     function getProfile() {
         return view('profile.index');
     }
+
+    public function index()
+    {
+        $users = User::all();
+
+        return view('user.index', compact(
+            'users'
+        ));
+    }
 }
