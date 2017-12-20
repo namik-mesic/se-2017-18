@@ -167,25 +167,20 @@ body{
 #chat .card {
     padding: 20px;
     display: block;
-    margin: 10px;
-    margin-top: 0;
     text-align: center;
-    width: auto;
+    width: calc(100% - 1px);
     height: auto;
     transition: all 0.1s ease-in;
     background: #fcfcfc;
     box-shadow: none;
     cursor: pointer;
-    border: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
 }
 
-#chat .card:first-child{
-    margin-top: 10px;
-}
 
 #chat .card:hover{
     background: #fff;
-    box-shadow: 0px 3px 6px rgb(216, 216, 216);
+    box-shadow: 0px 0px 8px rgb(216, 216, 216);
 }
 
 #chat .card .card-img-top {
@@ -302,6 +297,10 @@ body{
 #chat #my-panel .user-data .user-email {
 }
 
+#chat #my-panel .user-message-types{
+    overflow: auto;
+}
+
 #chat #my-panel .user-message-types .type-list {
     padding: 20px 15px;
     position: relative;
@@ -361,7 +360,7 @@ body{
     width: auto!important;
 }
 
-#chat #conversations .add-conversation{
+.add-button{
     padding: 20px;
     text-align: center;
     background: #fff;
@@ -415,4 +414,18 @@ body{
 ::-webkit-scrollbar-thumb {
     border-radius: 7px;
     background: #e7e7e7;
+}
+
+#chat #conversations .search-conversation{
+    padding: 18px;
+    border-bottom: 1px solid #efefef;
+}
+
+#chat #conversations .search-conversation .form-control{
+    border: 0;
+    box-shadow: none;
+}
+
+#chat #conversations .search-conversation button{
+    border-radius: 100px;
 }

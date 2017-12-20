@@ -53,8 +53,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="add-button">
+                    <button id="add-group" class="btn btn-success btn-add-conversation">Add group</button>
+                </div>
             </div>
             <div id="conversations" class="col-md-3 no-padding white-background line-right flex-col">
+                <div class="search-conversation">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search for conversations..">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
                 <div class="conversations-list">
                     @if(!$conversations->isEmpty())
                         @foreach($conversations as $conversation)
@@ -87,8 +98,8 @@
                         <p class="no-data">You do not have any conversations yet.</p>
                     @endif
                 </div>
-                <div class="add-conversation">
-                    <button class="btn btn-success btn-add-conversation">Add conversation</button>
+                <div class="add-button">
+                    <button id="add-conversation" class="btn btn-success btn-add-conversation">Add conversation</button>
                 </div>
             </div>
             <div id="chat-window" class="col-md-6 no-padding white-background">
