@@ -1,22 +1,29 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Repositories\MySQL;
 
+
+use App\Repositories\ConversationRepositoryInterface;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Class ConversationRepository
+ * @package App\Repositories
+ */
 class ConversationRepository implements ConversationRepositoryInterface {
     /**
      * Get all conversations of user that not contain object of auth user.
      *
      * @param User $user
-     * @return User
+     * @return Collection
      */
     public function getUsersConversations(User $user){
-        return User::find(Auth::user()->id)->conversations()->whereHas('messages')->with(
+        return User::find($user->id)->conversations()->whereHas('messages')->with(
             [
-                'users' => function ($query) {
-                    $query->where('users.id', '!=', Auth::user()->id);
+                'users' => function ($query) use ($user) {
+                    $query->where('users.id', '!=', $user->id);
                 },
                 'messages' => function ($query) {
                     $query->where('messages.read', '==', false);

@@ -7,7 +7,7 @@
 @section('content')
     <div id="chat" class="container-fluid full-width full-height full-height-no-navbar">
         <div class="row row-flex row-flex-wrap full-height">
-            <div id="my-panel" class="col-md-3 no-padding blue-background flex-col">
+            <div id="my-panel" class="col-md-3 no-padding white-background line-right flex-col">
                 <div class="top-icons row-flex flex-start">
                     <div class="top-icon">
                         <span class="icon-adjustments" data-toggle="tooltip" data-placement="bottom" title="Chat settings"></span>
@@ -16,6 +16,7 @@
                         <span class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Hide sidebar"></span>
                     </div>
                 </div>
+                <div class="horizontal-divider"></div>
                 <div class="user-data row-flex flex-start flex-col">
                     <div class="user-image-frame user-image-big">
                         <div class="user-image">
@@ -31,9 +32,12 @@
                         {{ Auth::user()->email }}
                     </div>
                 </div>
+                <div class="horizontal-divider"></div>
                 <div class="user-message-types row-flex flex-start flex-col">
                     <div class="type-list active">
-                        <span class="icon-chat mr15"></span> Conversation groups
+                        <div class="title">
+                            <span class="icon-chat mr15"></span> Conversation groups
+                        </div>
                         <div class="type-list-items">
                             <div class="type-list-item row-flex flex-center">
                                 <div class="type-circle friends"></div>
@@ -50,34 +54,44 @@
                     </div>
                 </div>
             </div>
-            <div id="conversations" class="col-md-3 no-padding white-background line-right">
-
+            <div id="conversations" class="col-md-3 no-padding white-background line-right flex-col">
+                <div class="conversations-list">
+                    @if(!$conversations->isEmpty())
+                        @foreach($conversations as $conversation)
+                            <div class="card" data-conversation="{{ $conversation->id }}">
+                                <div class="background-gradient"></div>
+                                <div class="chat-images">
+                                    @foreach($conversation->users as $index => $user)
+                                        @if($index == 0)
+                                            <div class="chat-image big">
+                                                <img class="card-img-top" src="{{ asset('images/default_user.jpg') }}" alt="{{ $user->name }}">
+                                            </div>
+                                        @elseif ($index == 1 || $index == 2)
+                                            <div class="chat-image small">
+                                                <img class="card-img-top" src="{{ asset('images/default_user.jpg') }}" alt="{{ $user->name }}">
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                                <div class="card-body">
+                                    <h4 class="card-title">
+                                        @foreach($conversation->users as $user)
+                                            <span class="label label-primary badge-pill">{{ $user->name }}</span>
+                                        @endforeach
+                                    </h4>
+                                    <p class="card-text">{{ $conversation->messages->last()->text }}</p>
+                                </div>
+                            </div>
+                        @endforeach
+                    @else
+                        <p class="no-data">You do not have any conversations yet.</p>
+                    @endif
+                </div>
+                <div class="add-conversation">
+                    <button class="btn btn-success btn-add-conversation">Add conversation</button>
+                </div>
             </div>
             <div id="chat-window" class="col-md-6 no-padding white-background">
-                @if(!$conversations->isEmpty())
-                    @foreach($conversations as $conversation)
-                        <div class="card" data-conversation="{{ $conversation->id }}">
-                            <div class="background-gradient"></div>
-                            <div class="chat-images">
-                            @foreach($conversation->users as $user)
-                                <div class="chat-image">
-                                    <img class="card-img-top" src="{{ asset('images/default_user.jpg') }}" alt="{{ $user->name }}">
-                                </div>
-                            @endforeach
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">
-                                    @foreach($conversation->users as $user)
-                                        {{ $user->name . ', ' }}
-                                    @endforeach
-                                </h4>
-                                <p class="card-text">{{ $conversation->messages->last()->text }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                @else
-                    <p class="no-data">You do not have any conversations yet.</p>
-                @endif
             </div>
         </div>
     </div>

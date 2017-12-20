@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App;
+use App\Repositories\MySQL\UserRepository;
+use App\Repositories\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +16,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        App::bind(UserRepositoryInterface::class, function () {
+
+            return new UserRepository;
+
+        });
     }
 
     /**

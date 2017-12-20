@@ -11,7 +11,11 @@
 |
 */
 
-use Illuminate\Support\Facades\Auth;
+Route::group(['middleware' => ['auth', 'bindings']], function () {
+
+    Route::resource('user', 'UserController');
+
+});
 
 Route::get('/', function () {
     return view('welcome');
@@ -25,5 +29,5 @@ Route::resource('user', 'UserController');
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/chat', 'ChatController@index');
+    Route::get('/chat', 'ChatController@index')->name('chat');
 });

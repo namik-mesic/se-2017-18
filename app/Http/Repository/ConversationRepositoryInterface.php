@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Repositories;
+namespace App\Repositories;
 
 use App\User;
 
+/**
+ * Class ConversationRepository
+ * @package App\Repositories
+ */
 interface ConversationRepositoryInterface {
     /**
      * Get all conversations of user that not contain object of auth user.

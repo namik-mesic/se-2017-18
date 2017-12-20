@@ -17,5 +17,8 @@ Route::group([
     'as' => 'api.',
     'namespace' => 'API'
 ], function () {
+
+    Route::resource('user', 'UserController');
     Route::resource('conversation', 'ConversationController');
+
 });
