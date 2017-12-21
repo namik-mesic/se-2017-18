@@ -11,6 +11,10 @@ class OfferTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Offer::class, 50)->create();
+        factory(App\Offer::class, 50)->create()->each(function (\App\Offer $offer){
+
+            $offer->tags()->attach([1,7, 4]);
+
+        });
     }
 }

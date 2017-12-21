@@ -6,12 +6,12 @@
             <h1>Create a new offer</h1>
             <hr class="custom-red-colors">
             <form method="post" action="/offer">
-                {{ csrf_field() }}
+               {!! csrf_field() !!}
 
                 @include('offer.fields')
             </form>
 
-            @include('offer/validate');
+            @include('offer/validate')
         </div>
     </div>
 @endsection

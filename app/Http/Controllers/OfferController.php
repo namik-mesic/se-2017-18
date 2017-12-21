@@ -48,6 +48,7 @@ class OfferController extends Controller
         $offer->meal = request('meal');
         $offer->ingredients = request('ingredients');
         $offer->cost = request('cost');
+        $offer->category =request('category');
 
         $offer->save();
 
@@ -79,7 +80,7 @@ class OfferController extends Controller
 
         return view('offer.show', compact('offer'));
     }
-    
+
     /**
      * @param $id
      * @return RedirectResponse
@@ -107,9 +108,21 @@ class OfferController extends Controller
         $offer->meal = $request->get('meal');
         $offer->ingredients = $request->get('ingredients');
         $offer->cost = $request->get('cost');
+        $offer->category = $request->get('category');
 
         $offer->save();
         return redirect()->action('OfferController@index');
     }
+    public function tagsShow(Tag $tag){
+        $offers = $tag->offers()->paginate(15);
+        $tags = Tag::selectRaw('name')->get();
 
+        return view('offer.index', compact('offers', 'tags', 'tag'));
+    }
+    public function scopeSearchByName(Request $request){
+
+      //  $offers = Offer::where('name', 'like', '%'.$request.'%')->paginate(15);
+        return 1;
+        //return view('offer.index', compact('offers'));
+    }
 }

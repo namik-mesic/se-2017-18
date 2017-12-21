@@ -27,6 +27,7 @@ class Offer extends model
         'meal',
         'ingredients',
         'cost',
+        'category'
     ];
 
     /**
