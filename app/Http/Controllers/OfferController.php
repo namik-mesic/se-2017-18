@@ -15,13 +15,15 @@ class OfferController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index()
+    public function index(Request $request)
     {
-        $offers = Offer::query()->paginate(15);
-
+        //$offers = $this->getPaginate(15, $request->get('query'));
+        $offers = Offer::query()->paginate(15, $request->get('query'));
+        //$offers = Offer::query()->paginate(15, $request->get('query'));
         $tags = Tag::selectRaw('name')->get();
+        $categories = Offer::select('category')->distinct()->get();
 
-        return view('offer.index', compact('offers', 'tags'));
+        return view('offer.index', compact('offers', 'tags', 'categories'));
     }
 
     /**
@@ -113,11 +115,31 @@ class OfferController extends Controller
         $offer->save();
         return redirect()->action('OfferController@index');
     }
+
+    /**
+     * @param Tag $tag
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
     public function tagsShow(Tag $tag){
         $offers = $tag->offers()->paginate(15);
         $tags = Tag::selectRaw('name')->get();
+        $categories = Offer::select('category')->distinct()->get();
 
-        return view('offer.index', compact('offers', 'tags', 'tag'));
+        return view('offer.index', compact('offers', 'tags', 'tag', 'categories'));
+    }
+
+    /**
+     * @param $category
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+    public function categoryShow($category){
+        $offers = DB::table('offers')->where('category', '=', $category)->paginate(15);
+        $tags = Tag::selectRaw('name')->get();
+        $categories = Offer::select('category')->distinct()->get();
+
+        return view('offer.index', compact('offers', 'tags', 'tag', 'categories'));
     }
     public function scopeSearchByName(Request $request){
 
