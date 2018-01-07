@@ -3,11 +3,11 @@
 @section('content')
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <div class="pull-left">
-                            Event invitations
+                            Invite
                         </div>
 
                         <div class="clearfix"></div>
@@ -24,29 +24,33 @@
                             <thead>
                             <tr>
                                 <td>
-                                    Event
+                                    ID
                                 </td>
-                                <td>Response</td>
+                                <td>
+                                    User name
+                                </td>
+
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($eventInvitations as $invitation)
+                            @foreach($invitedUsers as $user)
                                 <tr>
                                     <td>
-                                        {{ $invitation->name }}
+                                        {{ $user->id }}
                                     </td>
-                                    @if($invitation->response != "")
                                     <td>
-                                        {{ $invitation->response }}
+                                        {{ $user->name }}
                                     </td>
-                                    @else
-                                        <td>
-                                            <a class="btn btn-sm btn-primary" href="/invitations/{{$invitation->id}}&yes">Yes</a>
-                                            <a class="btn btn-sm btn-primary" href="/invitations/{{$invitation->id}}&maybe">Maybe</a>
-                                            <a class="btn btn-sm btn-primary" href="/invitations/{{$invitation->id}}&no">No</a>
 
-                                        </td>
-                                        @endif
+                                    <td>
+                                        @if($user->invited == false)
+                                        <a class="btn btn-sm btn-info" href="/event/{{$event_id}}/invite/{{$user->id}}">Invite</a>
+                                        @else
+                                            <span>{{$user->response}}</span>
+                                            @endif
+                                    </td>
+
                                 </tr>
                             @endforeach
                             </tbody>

@@ -16,8 +16,8 @@ use Faker\Generator as Faker;
 $factory->define(App\EventInvitation::class, function (Faker $faker) {
 
     return [
-        'eventId' => $faker->eventId,
-        'userId' => $faker->userId,
+        'event_id' => $faker->eventId,
+        'user_id' => $faker->userId,
         'response' => $faker->response
     ];
 });

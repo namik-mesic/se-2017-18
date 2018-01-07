@@ -23,4 +23,14 @@ Route::resource('user', 'UserController');
 
 Route::resource('/event', 'EventController');
 
-Route::resource('/eventInvitations', 'EventInvitationsController@index');
+Route::get('/event/{id}/sendInvitations', 'EventController@sendInvitations')->name('sendInvitations');
+
+Route::get('/event/{id}/invite', 'EventController@invite')->name('invite');
+
+Route::get('/event/{id}/invite/{user_id}', 'EventController@sendInvitation')->name('sendInvitation');
+
+Route::get('/invitations', 'EventInvitationsController@index')->name('invitations');
+
+Route::get('/invitations/{id}&{response}', 'EventInvitationsController@response')->name('response');
+
+

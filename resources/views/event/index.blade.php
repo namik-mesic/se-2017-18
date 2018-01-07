@@ -42,6 +42,7 @@
                                 <td></td>
                                 <td></td>
                                 <td></td>
+                                <td></td>
                             </tr>
                             </thead>
                             <tbody>
@@ -72,6 +73,9 @@
                                         {{ Form::hidden('_method', 'DELETE') }}
                                         {{ Form::submit('Delete', array('class' => 'btn btn-sm btn-warning')) }}
                                         {{ Form::close() }}
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-sm btn-primary" href="/event/{{$event->id}}/invite">Invite</a>
                                     </td>
                                 </tr>
                             @endforeach

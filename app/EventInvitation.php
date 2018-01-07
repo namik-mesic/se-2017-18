@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class EventInvitation extends Model
 {
     protected $fillable = [
-        'eventId', 'userId', 'response'
+        'event_id', 'user_id', 'response'
     ];
+
 }

@@ -10,7 +10,13 @@ namespace App\Http\Controllers;
 
 
 use App\Event;
+use App\EventInvitation;
 use App\Http\Requests\CreateEventRequest;
+use App\InvitedUser;
+use App\User;
+use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
@@ -24,6 +30,10 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::all();
+        $events = DB::table('events')
+            ->select('*')
+            ->where('events.user_id', '=', Auth::user()->id)
+            ->get();
 
         return view('event.index', compact(
             'events'
@@ -79,11 +89,63 @@ class EventController extends Controller
     }
     public function store(CreateEventRequest $request)
     {
+        //$request->user_id = Auth::user()->id;
         $data = $request->all();
-
+        $data['user_id'] = Auth::user()->id;
+        //$data->user_id = Auth::user()->id;
         $event = Event::query()->create($data);
 
         return redirect('event');
+    }
+
+    public function sendInvitations(int $event_id) {
+        $users = User::all();
+        $eventInvitation = new EventInvitation();
+        foreach ($users as $user) {
+            $eventInvitation->event_id = $event_id;
+            $eventInvitation->user_id = $user->id;
+            $eventInvitation->response = "";
+            $eventInvitation->save();
+        }
+
+        return redirect('event');
+    }
+
+    public function sendInvitation(int $event_id, int $user_id) {
+        $eventInvitation = new EventInvitation();
+            $eventInvitation->event_id = $event_id;
+            $eventInvitation->user_id = $user_id;
+            $eventInvitation->response = "";
+            $eventInvitation->save();
+        return redirect('event/' . $event_id . '/invite');
+    }
+
+    public function invite(int $event_id) {
+        $users = User::all();
+        $invitedUsers = array();
+
+        foreach ($users as  $index =>$user) {
+            $eventInvitation = DB::table('event_invitations')
+                ->select('event_invitations.id as id', 'event_invitations.response as response')
+                ->where('event_id', '=', $event_id)
+                ->where('user_id', '=', $user->id)
+                ->get();
+            $eventInvitation = $eventInvitation->values();
+            $invitedUser = new InvitedUser();
+            $invitedUser->id = $user->id;
+            $invitedUser->name  = $user->name;
+            if(!empty ( $eventInvitation ) && count($eventInvitation) > 0) {
+                $invitedUser->invited = true;
+                $invitedUser->response = $eventInvitation->get(0)->response;
+            }
+            else $invitedUser->invited = false;
+            $invitedUsers[$index] = $invitedUser;
+            //array_add($invitedUsers, $invitedUser->id,$invitedUser);
+        }
+
+        return view('event.invite', compact(
+            'invitedUsers', 'event_id'
+        ));
     }
 
 }
