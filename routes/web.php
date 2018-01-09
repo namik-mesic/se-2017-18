@@ -15,7 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/profile', 'ProfileController@getProfile');
+Route::get('/profile', 'ProfileController@getProfile')->name('profile');
+Route::get('/profile/update', 'ProfileController@getProfileUpdate')->name('profile-update');
+Route::put('/profile/update/me', 'ProfileController@updateProfile');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
