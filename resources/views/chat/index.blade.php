@@ -1,8 +1,15 @@
 @extends('layouts.app')
 
 @section('styles')
+    <link href="{{ asset('css/chat/selectize.bootstrap3.css') }}" rel="stylesheet">
     <link href="{{ asset('css/chat/chat.css') }}" rel="stylesheet">
 @endsection
+
+<script>
+    /* Glupo al radi xD */
+    var AuthUser = {};
+    AuthUser.id = {{ Auth::user()->id }};
+</script>
 
 @section('content')
     <div id="chat" class="container-fluid full-width full-height full-height-no-navbar">
@@ -10,10 +17,12 @@
             <div id="my-panel" class="col-md-3 no-padding white-background line-right flex-col">
                 <div class="top-icons row-flex flex-start">
                     <div class="top-icon">
-                        <span class="icon-adjustments" data-toggle="tooltip" data-placement="bottom" title="Chat settings"></span>
+                        <span data-toggle="modal" data-target="#chatSettingsModal">
+                            <span class="icon-adjustments" data-toggle="tooltip" data-placement="bottom" title="Chat settings"></span>
+                        </span>
                     </div>
                     <div class="top-icon text-right">
-                        <span class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Hide sidebar"></span>
+                        <span id="hideSidebar" class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Hide sidebar"></span>
                     </div>
                 </div>
                 <div class="horizontal-divider"></div>
@@ -67,47 +76,23 @@
                     </div>
                 </div>
                 <div class="conversations-list">
-                    @if(!$conversations->isEmpty())
-                        @foreach($conversations as $conversation)
-                            <div class="card" data-conversation="{{ $conversation->id }}">
-                                <div class="background-gradient"></div>
-                                <div class="chat-images">
-                                    @foreach($conversation->users as $index => $user)
-                                        @if($index == 0)
-                                            <div class="chat-image big">
-                                                <img class="card-img-top" src="{{ asset('images/default_user.jpg') }}" alt="{{ $user->name }}">
-                                            </div>
-                                        @elseif ($index == 1 || $index == 2)
-                                            <div class="chat-image small">
-                                                <img class="card-img-top" src="{{ asset('images/default_user.jpg') }}" alt="{{ $user->name }}">
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-                                <div class="card-body">
-                                    <h4 class="card-title">
-                                        @foreach($conversation->users as $user)
-                                            <span class="label label-primary badge-pill">{{ $user->name }}</span>
-                                        @endforeach
-                                    </h4>
-                                    <p class="card-text">{{ $conversation->messages->last()->text }}</p>
-                                </div>
-                            </div>
-                        @endforeach
-                    @else
-                        <p class="no-data">You do not have any conversations yet.</p>
-                    @endif
+                    <div class="loader">
+                        <div class="timer"></div>
+                    </div>
                 </div>
                 <div class="add-button">
-                    <button id="add-conversation" class="btn btn-success btn-add-conversation">Add conversation</button>
+                    <button id="add-conversation" class="btn btn-success btn-add-conversation" data-toggle="modal" data-target="#addConversationModal">Create conversation</button>
                 </div>
             </div>
             <div id="chat-window" class="col-md-6 no-padding white-background">
             </div>
         </div>
     </div>
+
+    @include('chat.dialogs')
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('js/selectize.min.js') }}"></script>
     <script src="{{ asset('js/chat.js') }}"></script>
 @endsection

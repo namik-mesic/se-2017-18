@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Repositories\MySQL\ConversationRepository;
 use App\Transformer\ConversationTransformer;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 
@@ -32,11 +33,9 @@ class ConversationController extends BaseController
     /**
      * @return JsonResponse|string
      */
-    public function index()
+    public function index(Request $request)
     {
-        $user = new User;
-        $user->id = 521;
-
+        $user = User::find($request->id);
 
         $conversations = $this->conversationRepository
             ->getUsersConversations($user);

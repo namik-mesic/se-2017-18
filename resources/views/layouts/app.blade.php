@@ -17,6 +17,9 @@
 <body>
 <div id="app">
     <nav class="navbar navbar-default navbar-static-top">
+        <div id="sidebarButton">
+            <span id="showSidebar" class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Show sidebar"></span>
+        </div>
         <div class="container">
             <div class="navbar-header">
 

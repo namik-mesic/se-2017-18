@@ -129,9 +129,24 @@ html, body {
     box-shadow: inset 0 -1px 0 #efefef;
     height: 2px;
 }
+
+.hideSidebar {
+    margin-left: -30em!important;
+}
 /* Bootstrap override */
 body{
     color: #a2a3a3;
+}
+
+button,
+button:active,
+button:focus,
+button:hover,
+.btn,
+.btn:active,
+.btn:focus,
+.btn:hover{
+    outline:none !important;
 }
 
 .navbar {
@@ -153,6 +168,15 @@ body{
     color: #fff;
 }
 
+.modal-content {
+    border-radius: 0!important;
+}
+
+.label {
+    display: block;
+    float: left;
+    margin-right: 5px;
+}
 /* Master layout override */
 #app {
     width: 100%;
@@ -175,6 +199,8 @@ body{
     box-shadow: none;
     cursor: pointer;
     border-bottom: 1px solid #efefef;
+    position: relative;
+    overflow: hidden;
 }
 
 
@@ -219,6 +245,7 @@ body{
 
 #chat .chat-images .chat-image.big{
     width: 55px;
+    height: 55px;
 }
 
 #chat .chat-images .chat-image.small{
@@ -229,6 +256,8 @@ body{
 }
 
 #chat #my-panel {
+    flex: 0 0 30em;
+    transition: margin 0.3s ease;
 }
 
 #chat #my-panel .top-icons {
@@ -243,7 +272,7 @@ body{
 }
 
 #chat #my-panel .top-icon:hover {
-    color: rgba(255, 255, 255, 0.7);
+    color: rgb(227, 98, 73);
 }
 
 #chat #my-panel .user-data{
@@ -284,6 +313,7 @@ body{
     opacity: 0;
     cursor: pointer;
     font-size: 30px;
+    padding: 45px;
 }
 
 #chat #my-panel .user-data .user-image-frame .user-image:hover .user-image-hover {
@@ -417,7 +447,7 @@ body{
 }
 
 #chat #conversations .search-conversation{
-    padding: 18px;
+    padding: 12px;
     border-bottom: 1px solid #efefef;
 }
 
@@ -429,3 +459,214 @@ body{
 #chat #conversations .search-conversation button{
     border-radius: 100px;
 }
+
+#sidebarButton {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    padding: 15px;
+    font-size: 20px;
+    transition: 0.2s all ease-in;
+    cursor: pointer;
+    color: #fff;
+    display: none;
+}
+
+[type="checkbox"]:not(:checked),
+[type="checkbox"]:checked {
+    position: absolute;
+    left: -9999px;
+}
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+    position: relative;
+    padding-left: 95px;
+    cursor: pointer;
+    line-height: 30px;
+}
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before,
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    content: '';
+    position: absolute;
+}
+[type="checkbox"]:not(:checked) + label:before,
+[type="checkbox"]:checked + label:before {
+    left: 0; top: 0;
+    width: 80px; height: 30px;
+    background: #DDDDDD;
+    border-radius: 6px;
+    transition: background-color .2s;
+}
+[type="checkbox"]:not(:checked) + label:after,
+[type="checkbox"]:checked + label:after {
+    width: 30px; height: 30px;
+    transition: all .2s;
+    border-radius: 6px 0 0 6px;
+    background: #7F8C9A;
+    top: 0; left: 0;
+}
+
+/* on checked */
+[type="checkbox"]:checked + label:before {
+    background:#34495E;
+}
+[type="checkbox"]:checked + label:after {
+    background: #cd5d5e;
+    border-bottom: 1px solid rgba(0,0,0,.05);
+    top: 0; left: 51px;
+    border-radius: 0 6px 6px 0;
+}
+
+[type="checkbox"]:checked + label .ui,
+[type="checkbox"]:not(:checked) + label .ui:before,
+[type="checkbox"]:checked + label .ui:after {
+    position: absolute;
+    left: 6px;
+    width: 65px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 22px;
+    transition: all .2s;
+}
+
+[type="checkbox"]:not(:checked) + label .ui:before {
+    content: '✔';
+    left: 46px;
+    margin-top: 3px;
+}
+[type="checkbox"]:checked + label .ui:after {
+    content: '✔';
+    color: #cd5d5e;
+    margin-top: 3px;
+    left: 12px;
+}
+[type="checkbox"]:focus + label:before {
+    border: 0; outline: 0;
+    box-sizing: border-box;
+}
+
+/* Ribbons */
+/* The ribbons */
+
+.corner-ribbon{
+    width: 200px;
+    background: #e43;
+    position: absolute;
+    top: 25px;
+    left: -50px;
+    text-align: center;
+    line-height: 50px;
+    letter-spacing: 1px;
+    color: #f0f0f0;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+/* Custom styles */
+
+.corner-ribbon.sticky{
+    position: absolute;
+}
+
+.corner-ribbon.shadow{
+    box-shadow: 0 0 3px rgba(0,0,0,.3);
+}
+
+/* Different positions */
+
+.corner-ribbon.top-right{
+    top: 10px;
+    right: -20px;
+    left: auto;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    width: 80px!important;
+    line-height: 20px;
+    letter-spacing: normal;
+}
+
+/* Colors */
+
+.corner-ribbon.white{background: #f0f0f0; color: #555;}
+.corner-ribbon.black{background: #333;}
+.corner-ribbon.grey{background: #999;}
+.corner-ribbon.blue{background: #39d;}
+.corner-ribbon.green{background: #2c7;}
+.corner-ribbon.turquoise{background: #1b9;}
+.corner-ribbon.purple{background: #95b;}
+.corner-ribbon.red{background: #ff7f7f;}
+.corner-ribbon.orange{background: #e82;}
+.corner-ribbon.yellow{background: #ec0;}
+
+/* Loader */
+/* Timer*/
+.timer{
+    width: 24px!important;
+    height: 24px!important;
+    background-color: transparent;
+    box-shadow: inset 0px 0px 0px 2px #ff7f7f;
+    border-radius: 50%;
+    position: relative;
+    margin: 38px auto;/* Not necessary- its only for layouting*/
+}
+.timer:after, .timer:before{
+    position: absolute;
+    content:"";
+    background-color: #ff7f7f;
+}
+.timer:after{
+    width: 10px;
+    height: 2px;
+    top: 11px;
+    left: 11px;
+    -webkit-transform-origin: 1px 1px;
+    -moz-transform-origin: 1px 1px;
+    transform-origin: 1px 1px;
+    -webkit-animation: minhand 2s linear infinite;
+    -moz-animation: minhand 2s linear infinite;
+    animation: minhand 2s linear infinite;
+}
+
+.timer:before{
+    width: 8px;
+    height: 2px;
+    top: 11px;
+    left: 11px;
+    -webkit-transform-origin: 1px 1px;
+    -moz-transform-origin: 1px 1px;
+    transform-origin: 1px 1px;
+    -webkit-animation: hrhand 8s linear infinite;
+    -moz-animation: hrhand 8s linear infinite;
+    animation: hrhand 8s linear infinite;
+}
+
+@-webkit-keyframes minhand{
+    0%{-webkit-transform:rotate(0deg)}
+    100%{-webkit-transform:rotate(360deg)}
+}
+@-moz-keyframes minhand{
+    0%{-moz-transform:rotate(0deg)}
+    100%{-moz-transform:rotate(360deg)}
+}
+@keyframes minhand{
+    0%{transform:rotate(0deg)}
+    100%{transform:rotate(360deg)}
+}
+
+@-webkit-keyframes hrhand{
+    0%{-webkit-transform:rotate(0deg)}
+    100%{-webkit-transform:rotate(360deg)}
+}
+@-moz-keyframes hrhand{
+    0%{-moz-transform:rotate(0deg)}
+    100%{-moz-transform:rotate(360deg)}
+}
+@keyframes hrhand{
+    0%{transform:rotate(0deg)}
+    100%{transform:rotate(360deg)}
+}
+

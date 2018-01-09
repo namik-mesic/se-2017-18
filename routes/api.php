@@ -19,6 +19,5 @@ Route::group([
 ], function () {
 
     Route::resource('user', 'UserController');
-    Route::resource('conversation', 'ConversationController');
-
+    Route::get('conversation/{id}', 'ConversationController@index');
 });

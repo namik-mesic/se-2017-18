@@ -10,6 +10,10 @@ use League\Fractal\TransformerAbstract;
  */
 class ConversationTransformer extends TransformerAbstract
 {
+    protected $defaultIncludes = [
+        'users',
+        'messages'
+    ];
     /**
      * @param Conversation $conversation
      * @return array
@@ -26,4 +30,17 @@ class ConversationTransformer extends TransformerAbstract
             'created_at' => $conversation->created_at
         ];
     }
+
+    public function includeUsers(Conversation $conversation) {
+        $users = $conversation->users;
+
+        return $this->collection($users, new UserTransformer);
+    }
+
+    public function includeMessages(Conversation $conversation) {
+        $messages = $conversation->messages;
+
+        return $this->collection($messages, new MessageTransformer);
+    }
+
 }

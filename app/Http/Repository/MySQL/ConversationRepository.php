@@ -26,7 +26,7 @@ class ConversationRepository implements ConversationRepositoryInterface {
                     $query->where('users.id', '!=', $user->id);
                 },
                 'messages' => function ($query) {
-                    $query->where('messages.read', '==', false);
+                    $query->where('messages.read', '==', false)->where('messages.deleted', '==', false)->orderBy('created_at', 'desc')->get();
                 }
             ]
         )->get();
