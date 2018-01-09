@@ -8,12 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 
 
-class Requests extends Model
+class advertisements extends Model
 {
     /**
      * @var
      */
-    protected $fillable = [
-        'statusat',
-    ];
+    protected $fillable = ['titles','image','description'];
+
 }

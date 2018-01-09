@@ -14,10 +14,13 @@ class Requests extends Migration
     public function up()
     {
         Schema::create('friend_requests', function (Blueprint $table) {
-            $table->increments('id');
-            // kako naznaciti foreign key ?
-            $table->tinyInteger('statusat');
-            $table->timestamps();
+
+            $table->integer('friend_id')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('friend_id')->references('id')->on('users');
+            $table->primary(array('user_id', 'friend_id'));
+
         });
     }
 

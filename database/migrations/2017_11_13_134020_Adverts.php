@@ -13,13 +13,11 @@ class Adverts extends Migration
      */
     public function up()
     {
-        Schema::create('adverts', function (Blueprint $table) {
+        Schema::create('advertisements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('titles');
-            $table->text('texts');
-            $table->binary('picture');
-            $table->dateTime('activefrom');
-            $table->dateTime('activeto');
+            $table->binary('image');
+            $table->text('description');
             $table->timestamps();
 
 
@@ -33,6 +31,6 @@ class Adverts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adverts');
+        Schema::dropIfExists('advertisements');
     }
 }
