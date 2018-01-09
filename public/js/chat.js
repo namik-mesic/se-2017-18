@@ -1,9 +1,14 @@
 var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
     '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
+var loader = '<div class="loader"><div class="timer"></div></div>';
 
 $(document).ready(function () {
 
     getConversation();
+
+    $('#searchConversation').on('click', function () {
+       getConversation();
+    });
 
     $('[data-toggle="tooltip"]').tooltip();
 
@@ -90,7 +95,11 @@ function showSidebar() {
 }
 
 function getConversation() {
-    $.get("/api/conversation/" + AuthUser.id, function (conversations) {
+    $('.conversations-list').html(loader);
+
+    var searchQuery = $('#searchConversationQuery').val().toString().trim();
+
+    $.get("/api/conversation/" + AuthUser.id, {searchConversationQuery: searchQuery} ,function (conversations) {
         conversations = JSON.parse(conversations);
 
         var conversationHTML = '';
@@ -107,11 +116,11 @@ function getConversation() {
                 conversation.users.data.forEach(function (user, index) {
                     if (index === 0) {
                         conversationHTML += '<div class="chat-image big">' +
-                                            '<img class="card-img-top" src="' + '/images/default_user.jpg' + '" alt="' + user.name + '">' +
+                                            '<img class="card-img-top" src="' + '/images/chat/default_user.jpg' + '" alt="' + user.name + '">' +
                                             '</div>';
                     } else if (index === 1 || index === 2) {
                         conversationHTML += '<div class="chat-image small">' +
-                                            '<img class="card-img-top" src="' + '/images/default_user.jpg' + '" alt="' + user.name + '">' +
+                                            '<img class="card-img-top" src="' + '/images/chat/default_user.jpg' + '" alt="' + user.name + '">' +
                                             '</div>';
                     }
                 });

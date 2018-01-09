@@ -69,22 +69,21 @@
             <div id="conversations" class="col-md-3 no-padding white-background line-right flex-col">
                 <div class="search-conversation">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search for conversations..">
+                        <input id="searchConversationQuery" type="text" class="form-control" placeholder="Search conversations by friend name..">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
+                            <button id="searchConversation" class="btn btn-default" type="button">Go!</button>
                         </span>
                     </div>
                 </div>
                 <div class="conversations-list">
-                    <div class="loader">
-                        <div class="timer"></div>
-                    </div>
                 </div>
                 <div class="add-button">
                     <button id="add-conversation" class="btn btn-success btn-add-conversation" data-toggle="modal" data-target="#addConversationModal">Create conversation</button>
                 </div>
             </div>
             <div id="chat-window" class="col-md-6 no-padding white-background">
+                <div class="chat-no-messages">Choose conversation on the left to <b>start chat</b> with your friends!</div>
+                <div class="chat-image"></div>
             </div>
         </div>
     </div>

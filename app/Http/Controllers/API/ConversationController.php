@@ -6,7 +6,6 @@ use App\Repositories\MySQL\ConversationRepository;
 use App\Transformer\ConversationTransformer;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 
 /**
@@ -38,7 +37,7 @@ class ConversationController extends BaseController
         $user = User::find($request->id);
 
         $conversations = $this->conversationRepository
-            ->getUsersConversations($user);
+            ->getUsersConversations($request, $user);
 
         return $this->jsonCollection($conversations, new ConversationTransformer);
     }

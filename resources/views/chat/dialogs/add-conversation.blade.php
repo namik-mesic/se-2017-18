@@ -6,7 +6,22 @@
                 <h4 class="modal-title" id="gridSystemModalLabel">Add Conversation</h4>
             </div>
             <div class="modal-body">
-                <select id="addConversationUsers"></select>
+                <div class="row row-flex row-flex-wrap">
+                    <div id="usersForConversation" class="col-md-3 white-background line-right">
+                        <b>Select users</b>
+                        <ul id="selectedUserConversation">
+                            <li>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div id="usersFor" class="col-md-9 white-background">
+                        <div class="form-group">
+                            <label for="conversationMessage">Message</label>
+                            <textarea id="conversationMessage" class="form-control" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

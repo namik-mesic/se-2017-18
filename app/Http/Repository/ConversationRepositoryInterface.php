@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\User;
+use Illuminate\Http\Request;
 
 /**
  * Class ConversationRepository
@@ -12,8 +13,10 @@ interface ConversationRepositoryInterface {
     /**
      * Get all conversations of user that not contain object of auth user.
      *
+     * @param Request $request
      * @param User $user
      * @return User
      */
-    public function getUsersConversations(User $user);
+    public function getUsersConversations(Request $request, User $user);
+
 }

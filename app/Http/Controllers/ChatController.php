@@ -24,10 +24,7 @@ class ChatController extends Controller
      * Chat controller constructor.
      */
     public function index(){
-        $conversations = $this->conversationRepositroy->getUsersConversations(Auth::user());
 
-        return view('chat.index', [
-            'conversations' => $conversations
-        ]);
+        return view('chat.index');
     }
 }

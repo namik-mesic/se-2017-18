@@ -131,7 +131,7 @@ html, body {
 }
 
 .hideSidebar {
-    margin-left: -30em!important;
+    margin-left: -20%!important;
 }
 /* Bootstrap override */
 body{
@@ -173,8 +173,7 @@ button:hover,
 }
 
 .label {
-    display: block;
-    float: left;
+    display: inline-block;
     margin-right: 5px;
 }
 /* Master layout override */
@@ -256,7 +255,7 @@ button:hover,
 }
 
 #chat #my-panel {
-    flex: 0 0 30em;
+    width: 20%;
     transition: margin 0.3s ease;
 }
 
@@ -283,7 +282,6 @@ button:hover,
     width: 60px;
     height: 60px;
     border-radius: 60px;
-    overflow: hidden;
 }
 
 #chat #my-panel .user-data .user-image-frame.user-image-big {
@@ -299,6 +297,7 @@ button:hover,
     background-size: cover;
     width: 100%;
     height: 100%;
+    border-radius: 50%;
 }
 
 #chat #my-panel .user-data .user-image-frame .user-image .user-image-hover {
@@ -314,6 +313,7 @@ button:hover,
     cursor: pointer;
     font-size: 30px;
     padding: 45px;
+    border-radius: 50%;
 }
 
 #chat #my-panel .user-data .user-image-frame .user-image:hover .user-image-hover {
@@ -428,6 +428,7 @@ button:hover,
 .conversations-list{
     flex: 1;
     overflow: auto;
+    padding-bottom: 70px;
 }
 
 ::-webkit-scrollbar-track {
@@ -444,6 +445,10 @@ button:hover,
 ::-webkit-scrollbar-thumb {
     border-radius: 7px;
     background: #e7e7e7;
+}
+
+#chat #conversations {
+    width: 20%;
 }
 
 #chat #conversations .search-conversation{
@@ -670,3 +675,21 @@ button:hover,
     100%{transform:rotate(360deg)}
 }
 
+#chat #chat-window .chat-image{
+    width: 100%;
+    height: 100%;
+    background: url('../../images/chat/chat-background.png');
+    background-size: 50%;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+#chat #chat-window .chat-no-messages {
+    position: absolute;
+    font-size: 30px;
+    text-align: center;
+    width: auto;
+    padding: 0 100px;
+    padding-top: 100px;
+    color: #c7c7c7;
+}
