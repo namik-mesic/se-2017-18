@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -15,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'id', 'name', 'email', 'password', 'image_url'
     ];
 
     /**
@@ -26,4 +27,24 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    function posts(){
+        return $this->hasMany('App\Post');
+    }
+
+    function comments(){
+        return $this->hasMany('App\Comment');
+    }
+
+    function likes(){
+        return $this->hasMany('App\Like');
+    }
+
+    function groupusers(){
+        return $this->hasMany('App\GroupUser');
+    }
+
+    function files(){
+        return $this->hasMany('App\File');
+    }
 }
