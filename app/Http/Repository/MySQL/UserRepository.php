@@ -89,4 +89,14 @@ class UserRepository implements UserRepositoryInterface
 
         return $user;
     }
+
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return User[]|Collection
+     */
+    public function getAllExceptAuth(User $user, Request $request)
+    {
+        return User::where('id', '!=', $request->id)->get();
+    }
 }

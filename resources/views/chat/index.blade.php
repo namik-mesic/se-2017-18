@@ -70,9 +70,6 @@
                 <div class="search-conversation">
                     <div class="input-group">
                         <input id="searchConversationQuery" type="text" class="form-control" placeholder="Search conversations by friend name..">
-                        <span class="input-group-btn">
-                            <button id="searchConversation" class="btn btn-default" type="button">Go!</button>
-                        </span>
                     </div>
                 </div>
                 <div class="conversations-list">

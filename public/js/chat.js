@@ -6,8 +6,10 @@ $(document).ready(function () {
 
     getConversation();
 
-    $('#searchConversation').on('click', function () {
-       getConversation();
+    $('#searchConversationQuery').on('focus', function () {
+       getContacts();
+    }).on('focusout', function () {
+        getConversation();
     });
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -97,9 +99,10 @@ function showSidebar() {
 function getConversation() {
     $('.conversations-list').html(loader);
 
+    $('#searchConversationQuery').val('');
     var searchQuery = $('#searchConversationQuery').val().toString().trim();
 
-    $.get("/api/conversation/" + AuthUser.id, {searchConversationQuery: searchQuery} ,function (conversations) {
+    $.get("/api/conversation/getAll/" + AuthUser.id, {searchConversationQuery: searchQuery} ,function (conversations) {
         conversations = JSON.parse(conversations);
 
         var conversationHTML = '';
@@ -140,5 +143,18 @@ function getConversation() {
 
         }
 
+    });
+}
+
+function getContacts() {
+    $('.conversations-list').html(loader);
+
+    var searchQuery = $('#searchConversationQuery').val().toString().trim();
+    $.get("/api/user/getAll/" + AuthUser.id, {searchConversationQuery: searchQuery}, function (users) {
+        users = JSON.parse(users);
+
+        var usersHTML = '';
+
+        $('.conversations-list').prepend('<div class="friendsTitle">Friends</div>');
     });
 }

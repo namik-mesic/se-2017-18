@@ -19,5 +19,6 @@ Route::group([
 ], function () {
 
     Route::resource('user', 'UserController');
-    Route::get('conversation/{id}', 'ConversationController@index');
+    Route::get('conversation/getAll/{id}', 'ConversationController@index');
+    Route::get('user/getAll/{id}', 'UserController@getAllExceptAuth');
 });

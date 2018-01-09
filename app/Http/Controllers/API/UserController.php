@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Repositories\MySQL\UserRepository;
 use App\Transformer\UserTransformer;
+use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -36,6 +37,22 @@ class UserController extends BaseController
     {
         $users = $this->userRepository
             ->getByNameLike($request->get('q'));
+
+        return $this->jsonCollection($users, new UserTransformer);
+    }
+
+    /**
+     * @param $authUserId
+     * @param Request $request
+     * @return string
+     * @internal param User $user
+     */
+    public function getAllExceptAuth(Request $request) {
+
+        $user = User::find($request->id);
+
+        $users = $this->userRepository
+            ->getAllExceptAuth($user, $request);
 
         return $this->jsonCollection($users, new UserTransformer);
     }
