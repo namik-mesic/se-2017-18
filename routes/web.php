@@ -29,19 +29,19 @@ Route::post('/offer', 'OfferController@store');
 
 Route::get('/offer/edit/{offer}', 'OfferController@edit');
 
+Route::get('/offer/tags', 'OfferController@tagsShow') ;
+
 Route::get('/offer/{offer}', 'OfferController@show');
 
 Route::post('/offer/update/{offer}', 'OfferController@update');
 
 Route::delete('/offer/delete/{offer}', 'OfferController@delete');
 
-Route::get('/offer/tags/{tag}', 'OfferController@tagsShow') ;
-
 Route::get('/searchPrice', 'OfferController@searchByPrice');
 
 Route::get('/sort/{sort}', 'OfferController@sort');
 
-Route::get('/offer/categories/{category}', 'OfferController@categoryShow');
+Route::get('/offer/categories', 'OfferController@categoryShow');
 
 Route::get('/search', 'OfferController@index');
 

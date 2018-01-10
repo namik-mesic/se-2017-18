@@ -23,13 +23,12 @@
                 </div>
             </form>
         </div>
-
-        <div class="form-group">
+        <label for="priceSearch">
+            Search by price:
+        </label>
+        <hr class="custom-red-colors">
+        <div class="form-group" style="padding: 10px">
             <form action="/searchPrice" method="GET">
-                <label for="priceSearch">
-                    Search by price:
-                </label>
-                <br>
                 <label>From:</label>
                 <input type="number" id="from" name="from" class="form-control" value="" required>
                 <br>
@@ -38,11 +37,11 @@
                 <button type="submit" class="btn btn-success" style="display: none"></button>
             </form>
         </div>
-
-        <div class="form-group">
+        <hr class="custom-red-colors">
+        <label for="tags">Select tags:</label>
+        <div class="form-group" style="padding: 10px">
             {{-- {{ Form::select('tags', [@foreach ($tags as $tag)]) }}--}}
             <form action="/offer/tags" method="GET" id="tags">
-                <label for="tags">Select tags:</label>
                 <select class="form-control" name="tag_id" form="tags">
                     <option>Select a tag</option>
                     @foreach($tags as $tag)
@@ -51,19 +50,29 @@
                         </option>
                     @endforeach
                 </select>
-                <input type="submit">
+                <br>
+                <button type="submit" class="btn btn-success">Search</button>
             </form>
 
         </div>
-
-        <hr>
-        <div class="custom-dropdown">
-            Category:
-            @foreach($categories as $category)
-                <a href="/offer/categories/{{$category->category}}">{{ $category->category }}</a>
+        <hr class="custom-red-colors">
+        <label for="category">Category:</label>
+        <div class="form-group" style="padding: 10px;">
+            <form action="/offer/categories" method="GET" id="category">
+                <select class="form-control" name="category_id" form="category">
+                <option>Select a category...</option>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->category }}">
+                            {{ $category->category }}
+                        </option>
+                    @endforeach
+                </select>
                 <br>
-            @endforeach
+                <button type="submit" class="btn btn-success">Search</button>
+            </form>
         </div>
+
+
         <br>
     </div>
 </div>

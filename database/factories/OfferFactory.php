@@ -17,6 +17,7 @@ $factory->define(App\Offer::class, function (Faker $faker) {
         'meal' => $faker->text(20),
         'ingredients' => $faker->realText(40),
         'cost' => $faker->numberBetween(1, 15),
-        'category' => $faker->numberBetween(1, 4)
+        'category' => $faker->numberBetween(1, 4),
+        'counter' => $faker->numberBetween(0, 20)
     ];
 });

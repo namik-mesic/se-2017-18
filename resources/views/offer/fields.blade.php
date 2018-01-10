@@ -19,20 +19,27 @@
 <div class="form-group">
     <div class="input-group">
         <label for="category">Category</label>
-        <input list="category" type="text" class="form-control" id="category" name="category" placeholder="Category"
-               value="{{ $offer->category }}">
-        <datalist id="category">
-            {{-- @foreach($category as $category)
-              <option value="{{$category->category}}">
-              @endforeach--}}
+       {{-- <input list="category" type="text" class="form-control" id="category" name="category" placeholder="Category"
+               value="{{ $offer->category }}">--}}
+        {{--  <datalist id="category">
+             @foreach($category as $category)
+               <option value="{{$category->category}}">
+               @endforeach
             <option value="dddd"></option>
-        </datalist>
+        </datalist>--}}
         <select name="category" id="category">
             @foreach($categories as $category)
                 <option value="{{$category->category}}">{{$category->category}}</option>
             @endforeach
         </select>
     </div>
+</div>
+
+<div class="form-group input-group">
+    <label for="tags">Tags</label>
+    <select id="tags">
+        <option value=""></option>
+    </select>
 </div>
 
 <!--<div class="form-group">

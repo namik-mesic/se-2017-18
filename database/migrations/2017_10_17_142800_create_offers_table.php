@@ -22,6 +22,7 @@ class CreateOffersTable extends Migration
             $table->string('ingredients');
             $table->double('cost');
             $table->string('category');
+            $table->integer('counter');
 
         });
     }

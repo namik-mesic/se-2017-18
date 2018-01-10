@@ -127,9 +127,15 @@ class OfferController extends Controller
     public function tagsShow(Request $request)
     {
         /** @var Tag $tag */
-        $tag = Tag::query()->find($request->get('tag_id'));
+        $tag = Tag::query()->findOrFail($request->get('tag_id'));
 
-        $offers = $tag->offers()->paginate(15);
+        $offers = Offer::query()
+            ->join('offer_tag', 'offers.id', '=', 'offer_tag.offer_id')
+            ->where('offer_tag.tag_id', '=', $tag->id)
+            ->paginate(15);
+
+
+
         $tags = Tag::query()->get();
         $categories = Offer::query()->select('category')->distinct()->get();
 
@@ -143,7 +149,11 @@ class OfferController extends Controller
 
     public function categoryShow($category)
     {
-        $offers = DB::table('offers')->where('category', '=', $category)->paginate(15);
+       // $c = Offer::query()->find($category->get())
+        $offers = Offer::query()
+            ->where('category', '=', $category->categoty)
+            ->paginate(15);
+
         $tags = Tag::query()->get();
         $categories = Offer::select('category')->distinct()->get();
 
@@ -164,8 +174,21 @@ class OfferController extends Controller
         return view('offer.index', compact('offers', 'tags', 'categories'));
 
     }
-    public function sort( $request){
+    public function sort(Request $request){
+        if ($request->sort == 1) {
+            $offers = DB::table('offers')->orderBy('cost', 'asc')->paginate(15);
+        }
+        else if($request->sort == 2) {
+            $offers = DB::table('offers')->orderBy('cost', 'desc')->paginate(15);
+        }
+        else {
+            $offers =DB::table('offers')->orderBy('counter', 'desc')->paginate(15);
+        }
 
-        return $request ;
+        $tags = Tag::query()->get();
+        $categories =Offer::select('category')->distinct()->get();
+
+        return view('offer.index', compact('offers', 'tags', 'categories'));
+
     }
 }
