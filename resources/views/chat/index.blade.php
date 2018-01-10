@@ -68,10 +68,16 @@
             </div>
             <div id="conversations" class="col-md-3 no-padding white-background line-right flex-col">
                 <div class="search-conversation">
-                    <div class="input-group">
-                        <input id="searchConversationQuery" type="text" class="form-control" placeholder="Search conversations by friend name..">
+                    <div id="searchConversationsDIV" class="input-group">
+                        <input id="searchConversationQuery" type="text" class="form-control" placeholder="Search conversations by friends name..">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">Go!</button>
+                            <button id="searchConversations" class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                    <div id="searchFriendsDIV" class="input-group hideSearch">
+                        <input id="searchFriendsQuery" type="text" class="form-control" placeholder="Search friends to start chat..">
+                        <span class="input-group-btn">
+                            <button id="searchFriends" class="btn btn-default" type="button">Go!</button>
                         </span>
                     </div>
                 </div>

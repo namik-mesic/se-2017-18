@@ -133,6 +133,15 @@ html, body {
 .hideSidebar {
     margin-left: -20%!important;
 }
+
+.hideSearch {
+    display: none;
+}
+
+.no-data{
+    padding: 10px;
+    text-align: center;
+}
 /* Bootstrap override */
 body{
     color: #a2a3a3;
@@ -238,6 +247,7 @@ button:hover,
     width: 88px;
     float: left;
     margin-right: 10px;
+    position: relative;
 }
 
 #chat .chat-images .chat-image {
@@ -263,7 +273,7 @@ button:hover,
 
 #chat #my-panel .top-icons {
     padding: 20px 30px;
-    flex: 1 0 auto;
+    flex: 0 0 auto;
 }
 
 #chat #my-panel .top-icon {
@@ -430,7 +440,7 @@ button:hover,
 .conversations-list{
     flex: 1;
     overflow: auto;
-    padding-bottom: 70px;
+    margin-bottom: 70px;
 }
 
 ::-webkit-scrollbar-track {
@@ -560,17 +570,13 @@ button:hover,
 /* The ribbons */
 
 .corner-ribbon{
-    width: 200px;
-    background: #e43;
     position: absolute;
     top: 25px;
-    left: -50px;
     text-align: center;
     line-height: 50px;
     letter-spacing: 1px;
     color: #f0f0f0;
-    transform: rotate(-45deg);
-    -webkit-transform: rotate(-45deg);
+    border: 3px solid #fff;
 }
 
 /* Custom styles */
@@ -585,15 +591,14 @@ button:hover,
 
 /* Different positions */
 
-.corner-ribbon.top-right{
-    top: 10px;
-    right: -20px;
-    left: auto;
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-    width: 80px!important;
+.corner-ribbon.top-right {
+    top: -5px;
+    left: -5px;
+    width: 15px!important;
+    height: 15px;
     line-height: 20px;
     letter-spacing: normal;
+    border-radius: 50%;
 }
 
 /* Colors */
@@ -605,7 +610,9 @@ button:hover,
 .corner-ribbon.green{background: #2c7;}
 .corner-ribbon.turquoise{background: #1b9;}
 .corner-ribbon.purple{background: #95b;}
-.corner-ribbon.red{background: #ff7f7f;}
+.corner-ribbon.red {
+    background: #ff7f7f;
+}
 .corner-ribbon.orange{background: #e82;}
 .corner-ribbon.yellow{background: #ec0;}
 

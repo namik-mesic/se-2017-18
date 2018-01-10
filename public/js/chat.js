@@ -4,14 +4,18 @@ var loader = '<div class="loader"><div class="timer"></div></div>';
 
 $(document).ready(function () {
 
-    getConversation();
+    getConversation('');
 
     $('#getConversations').on('click', function () {
-        getConversation();
+        changeSearch('conversations');
+        getConversation('');
+        resetSearch();
     });
 
     $('#getFriends').on('click', function () {
-        getContacts();
+        changeSearch('friends');
+        getFriends('');
+        resetSearch();
     });
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -22,6 +26,16 @@ $(document).ready(function () {
 
     $('#showSidebar').on('click', function () {
         showSidebar();
+    });
+
+    $('#searchConversations').on('click', function () {
+        var searchQuery = $('#searchConversationQuery').val().toString().trim();
+       getConversation(searchQuery);
+    });
+
+    $('#searchFriends').on('click', function () {
+        var searchQuery = $('#searchFriendsQuery').val().toString().trim();
+        getFriends(searchQuery);
     });
 });
 
@@ -39,13 +53,10 @@ function showSidebar() {
     $('#sidebarButton').hide();
 }
 
-function getConversation() {
+function getConversation(searchQuery) {
     $('.conversations-list').html(loader);
 
-    $('#searchConversationQuery').val('');
-    var searchQuery = $('#searchConversationQuery').val().toString().trim();
-
-    $.get("/api/conversation/getAll/" + AuthUser.id, {searchConversationQuery: searchQuery} ,function (conversations) {
+    $.get("/api/conversation/getAll/" + AuthUser.id, {searchQuery: searchQuery} ,function (conversations) {
         conversations = JSON.parse(conversations);
 
         var conversationHTML = '';
@@ -53,14 +64,14 @@ function getConversation() {
         $('.conversations-list').html('<div class="friendsTitle">Conversations</div>');
 
         if(conversations.data.length < 1) {
-            conversationHTML = '<p class="no-data">You do not have any conversations yet.</p>';
+            conversationHTML = '<p class="no-data">No conversations found.</p>';
         } else {
             conversations.data.forEach(function (conversation) {
                 conversationHTML += '<div class="card card-conversation" data-conversation="' + conversation.id + '">';
-                if(conversation.messages.data.length > 0) {
-                    conversationHTML += '<div class="corner-ribbon top-right sticky red">Unread</div>';
-                }
                 conversationHTML += '<div class="chat-images">';
+                if(conversation.messages.data.length > 0) {
+                    conversationHTML += '<div class="corner-ribbon top-right sticky red"></div>';
+                }
                 conversation.users.data.forEach(function (user, index) {
                     if (index === 0) {
                         conversationHTML += '<div class="chat-image big">' +
@@ -91,11 +102,10 @@ function getConversation() {
     });
 }
 
-function getContacts() {
+function getFriends(searchQuery) {
     $('.conversations-list').html(loader);
 
-    var searchQuery = $('#searchConversationQuery').val().toString().trim();
-    $.get("/api/user/getAll/" + AuthUser.id, {searchConversationQuery: searchQuery}, function (users) {
+    $.get("/api/user/getAll/" + AuthUser.id, {searchQuery: searchQuery}, function (users) {
         users = JSON.parse(users);
 
         var usersHTML = '';
@@ -103,7 +113,7 @@ function getContacts() {
         $('.conversations-list').html('<div class="friendsTitle">Friends</div>');
 
         if(users.data.length < 1) {
-            usersHTML = '<p class="no-data">You do not have any friends.</p>';
+            usersHTML = '<p class="no-data">No friends found.</p>';
         } else {
             users.data.forEach(function (user) {
                 usersHTML += '<div class="card card-user" data-user="' + user.id + '">';
@@ -122,4 +132,17 @@ function getContacts() {
 
         $('.conversations-list').append(usersHTML);
     });
+}
+
+function changeSearch(type) {
+    $('.search-conversation').find('.input-group').hide();
+    if (type === 'conversations') {
+        $('#searchConversationsDIV').css('display', 'table');
+    } else if (type === 'friends') {
+        $('#searchFriendsDIV').css('display', 'table');
+    }
+}
+
+function resetSearch() {
+    $('.search-conversation').find('input').val('');
 }

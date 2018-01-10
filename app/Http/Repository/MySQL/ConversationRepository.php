@@ -52,7 +52,7 @@ class ConversationRepository implements ConversationRepositoryInterface {
                 }
             ]
         )->whereHas('users', function ($query) use ($request) {
-            $query->where('users.name', 'like', '%' . $request->searchConversationQuery . '%');
+            $query->where('users.name', 'like', '%' . $request->searchQuery . '%');
         })->get();
     }
 
