@@ -188,7 +188,7 @@ button:hover,
 }
 
 #chat .card {
-    padding: 20px;
+    padding: 10px;
     display: block;
     text-align: center;
     width: calc(100% - 1px);
@@ -230,6 +230,8 @@ button:hover,
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    text-align: left;
+    text-align: left;
 }
 
 #chat .chat-images {
@@ -753,4 +755,8 @@ button:hover,
     font-size: 13px;
     line-height: 24px;
     padding: 0 12px;
+}
+
+.btn-half {
+    width: 50%;
 }

@@ -70,12 +70,18 @@
                 <div class="search-conversation">
                     <div class="input-group">
                         <input id="searchConversationQuery" type="text" class="form-control" placeholder="Search conversations by friend name..">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">Go!</button>
+                        </span>
                     </div>
                 </div>
                 <div class="conversations-list">
                 </div>
                 <div class="add-button">
-                    <button id="add-conversation" class="btn btn-success btn-add-conversation" data-toggle="modal" data-target="#addConversationModal">Create conversation</button>
+                    <div class="btn-group text-center" role="group" aria-label="Chat buttons">
+                        <button id="getConversations" type="button" class="btn btn-success btn-add-conversation btn-half">Conversations</button>
+                        <button id="getFriends" type="button" class="btn btn-success btn-add-conversation btn-half">Friends</button>
+                    </div>
                 </div>
             </div>
             <div id="chat-window" class="col-md-6 no-padding white-background">

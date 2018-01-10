@@ -6,10 +6,12 @@ $(document).ready(function () {
 
     getConversation();
 
-    $('#searchConversationQuery').on('focus', function () {
-       getContacts();
-    }).on('focusout', function () {
+    $('#getConversations').on('click', function () {
         getConversation();
+    });
+
+    $('#getFriends').on('click', function () {
+        getContacts();
     });
 
     $('[data-toggle="tooltip"]').tooltip();
@@ -21,65 +23,6 @@ $(document).ready(function () {
     $('#showSidebar').on('click', function () {
         showSidebar();
     });
-
-    $('#addConversationUsers').selectize({
-        persist: false,
-        maxItems: null,
-        valueField: 'email',
-        labelField: 'name',
-        searchField: ['name', 'email'],
-        options: [
-            {email: 'brian@thirdroute.com', name: 'Brian Reavis'},
-            {email: 'nikola@tesla.com', name: 'Nikola Tesla'},
-            {email: 'someone@gmail.com'}
-        ],
-        render: {
-            item: function(item, escape) {
-                return '<div>' +
-                    (item.name ? '<span class="name">' + escape(item.name) + '</span>' : '') +
-                    (item.email ? '<span class="email">' + escape(item.email) + '</span>' : '') +
-                    '</div>';
-            },
-            option: function(item, escape) {
-                var label = item.name || item.email;
-                var caption = item.name ? item.email : null;
-                return '<div>' +
-                    '<span class="label">' + escape(label) + '</span>' +
-                    (caption ? '<span class="caption">' + escape(caption) + '</span>' : '') +
-                    '</div>';
-            }
-        },
-        createFilter: function(input) {
-            var match, regex;
-
-            // email@address.com
-            regex = new RegExp('^' + REGEX_EMAIL + '$', 'i');
-            match = input.match(regex);
-            if (match) return !this.options.hasOwnProperty(match[0]);
-
-            // name <email@address.com>
-            regex = new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i');
-            match = input.match(regex);
-            if (match) return !this.options.hasOwnProperty(match[2]);
-
-            return false;
-        },
-        create: function(input) {
-            if ((new RegExp('^' + REGEX_EMAIL + '$', 'i')).test(input)) {
-                return {email: input};
-            }
-            var match = input.match(new RegExp('^([^<]*)\<' + REGEX_EMAIL + '\>$', 'i'));
-            if (match) {
-                return {
-                    email : match[2],
-                    name  : $.trim(match[1])
-                };
-            }
-            alert('Invalid email address.');
-            return false;
-        }
-    });
-
 });
 
 function hideSidebar() {
@@ -107,11 +50,13 @@ function getConversation() {
 
         var conversationHTML = '';
 
+        $('.conversations-list').html('<div class="friendsTitle">Conversations</div>');
+
         if(conversations.data.length < 1) {
             conversationHTML = '<p class="no-data">You do not have any conversations yet.</p>';
         } else {
             conversations.data.forEach(function (conversation) {
-                conversationHTML += '<div class="card" data-conversation="' + conversation.id + '">';
+                conversationHTML += '<div class="card card-conversation" data-conversation="' + conversation.id + '">';
                 if(conversation.messages.data.length > 0) {
                     conversationHTML += '<div class="corner-ribbon top-right sticky red">Unread</div>';
                 }
@@ -139,9 +84,9 @@ function getConversation() {
                 conversationHTML += '</div>';
             });
 
-            $('.conversations-list').html(conversationHTML);
-
         }
+
+        $('.conversations-list').append(conversationHTML);
 
     });
 }
@@ -155,6 +100,26 @@ function getContacts() {
 
         var usersHTML = '';
 
-        $('.conversations-list').prepend('<div class="friendsTitle">Friends</div>');
+        $('.conversations-list').html('<div class="friendsTitle">Friends</div>');
+
+        if(users.data.length < 1) {
+            usersHTML = '<p class="no-data">You do not have any friends.</p>';
+        } else {
+            users.data.forEach(function (user) {
+                usersHTML += '<div class="card card-user" data-user="' + user.id + '">';
+                usersHTML += '<div class="chat-images">';
+                usersHTML += '<div class="chat-image big">' +
+                            '<img class="card-img-top" src="' + '/images/chat/default_user.jpg' + '" alt="' + user.name + '">' +
+                            '</div>';
+                usersHTML += '</div>';
+                usersHTML += '<div class="card-body">' +
+                            '<h4 class="card-title">' + user.name + '</h4>';
+                usersHTML += '<p class="card-text">' + user.email + '</p>';
+                usersHTML += '</div>';
+                usersHTML += '</div>';
+            });
+        }
+
+        $('.conversations-list').append(usersHTML);
     });
 }
