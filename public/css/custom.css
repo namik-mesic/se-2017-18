@@ -79,18 +79,7 @@
 .custom-padding {
     padding: 10px;
 }
-.custom-dropdown {
-    background: white;
-    width: inherit;
-    border-top: 0.5px solid #bf3125;
-    border-bottom: 0.5px solid #bf3125;
-}
-.custom-dropdown-btn {
-    width: 100%;
-    background: white;
-    text-align: left;
-}
 
-.custom-search {
-    padding-bottom: 10%;
+.custom-search-tag {
+
 }

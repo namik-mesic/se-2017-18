@@ -17,9 +17,12 @@ class OfferController extends Controller
      */
     public function index(Request $request)
     {
-        //$offers = $this->getPaginate(15, $request->get('query'));
-        $offers = Offer::query()->paginate(15, $request->get('query'));
-        //$offers = Offer::query()->paginate(15, $request->get('query'));
+        $offers = Offer::query()->paginate(15, $request->get(''));
+
+        if (isset($request->offerquery)) {
+            $offers = DB::table('offers')->where('meal', 'like', '%' . $request->offerquery . '%')->paginate(15);
+        }
+
         $tags = Tag::selectRaw('name')->get();
         $categories = Offer::select('category')->distinct()->get();
 
@@ -32,9 +35,10 @@ class OfferController extends Controller
     public function create()
     {
         $offer = new Offer;
+        $categories = Offer::select('category')->distinct()->get();
 
         return view('offer.create', compact(
-            'offer'
+            'offer', 'categories'
         ));
     }
 
@@ -50,7 +54,7 @@ class OfferController extends Controller
         $offer->meal = request('meal');
         $offer->ingredients = request('ingredients');
         $offer->cost = request('cost');
-        $offer->category =request('category');
+        $offer->category = request('category');
 
         $offer->save();
 
@@ -117,14 +121,17 @@ class OfferController extends Controller
     }
 
     /**
-     * @param Tag $tag
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 
-    public function tagsShow(Tag $tag){
+    public function tagsShow(Request $request)
+    {
+        /** @var Tag $tag */
+        $tag = Tag::query()->find($request->get('tag_id'));
+
         $offers = $tag->offers()->paginate(15);
-        $tags = Tag::selectRaw('name')->get();
-        $categories = Offer::select('category')->distinct()->get();
+        $tags = Tag::query()->get();
+        $categories = Offer::query()->select('category')->distinct()->get();
 
         return view('offer.index', compact('offers', 'tags', 'tag', 'categories'));
     }
@@ -134,17 +141,31 @@ class OfferController extends Controller
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
 
-    public function categoryShow($category){
+    public function categoryShow($category)
+    {
         $offers = DB::table('offers')->where('category', '=', $category)->paginate(15);
-        $tags = Tag::selectRaw('name')->get();
+        $tags = Tag::query()->get();
         $categories = Offer::select('category')->distinct()->get();
 
-        return view('offer.index', compact('offers', 'tags', 'tag', 'categories'));
+        return view('offer.index', compact('offers', 'tags', 'categories'));
     }
-    public function scopeSearchByName(Request $request){
 
-      //  $offers = Offer::where('name', 'like', '%'.$request.'%')->paginate(15);
-        return 1;
-        //return view('offer.index', compact('offers'));
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+    public function searchByPrice (Request $request){
+
+        $offers = DB::table('offers')->whereBetween('cost', [$request->from, $request->to])->paginate(15);
+        $tags = Tag::query()->get();
+        $categories =Offer::select('category')->distinct()->get();
+
+        return view('offer.index', compact('offers', 'tags', 'categories'));
+
+    }
+    public function sort( $request){
+
+        return $request ;
     }
 }

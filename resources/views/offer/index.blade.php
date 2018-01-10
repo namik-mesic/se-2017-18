@@ -19,6 +19,15 @@
                         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                         <span><strong>Add a meal</strong></span>
                     </a>
+                    <div class="form-group" style="float: right">
+                        <label for="">Sort by:</label>
+                        <select name="sort" id="sort">
+                            <option value=""></option>
+                            <option value="1">Price asc</option>
+                            <option value="2">Price dsc</option>
+                            <option value="3">Relevance</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="row row-flex custom-offer">
                     <div style="width: 100%">
@@ -45,5 +54,12 @@
 
     <script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
-
+    <script>
+        $(document).ready(function () {
+            $( "#sort" ).change(function() {
+                var url = "/sort/"+$('#sort').val();
+                $(location).attr('href',url);
+            });
+        });
+    </script>
 @endsection
