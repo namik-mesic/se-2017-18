@@ -21,4 +21,5 @@ Route::group([
     Route::resource('user', 'UserController');
     Route::get('conversation/getAll/{id}', 'ConversationController@index');
     Route::get('user/getAll/{id}', 'UserController@getAllExceptAuth');
+    Route::get('message/getAll/{id}', 'MessageController@getMessagesOfConversation');
 });

@@ -121,6 +121,10 @@ html, body {
     box-shadow: inset -1px 0 0 #f6f6f6;
 }
 
+.line-top {
+    box-shadow: inset 0 1px 0 #f6f6f6;
+}
+
 .mr15 {
     margin-right: 15px;
 }
@@ -624,8 +628,10 @@ button:hover,
     background-color: transparent;
     box-shadow: inset 0px 0px 0px 2px #ff7f7f;
     border-radius: 50%;
-    position: relative;
-    margin: 38px auto;/* Not necessary- its only for layouting*/
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 .timer:after, .timer:before{
     position: absolute;
@@ -767,3 +773,122 @@ button:hover,
 .btn-half {
     width: 50%;
 }
+
+/* Messages */
+#chatMessages {
+    list-style: none;
+    background: none;
+    margin: 0;
+    padding: 0;
+    margin-bottom: 70px;
+    width: 100%;
+    margin-top: 50px;
+    overflow-y: scroll;
+}
+
+#chatMessages li {
+    padding: 0.5rem;
+    overflow: hidden;
+    display: flex;
+}
+
+#chatMessages li.mine {
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+#chatMessages li .avatar {
+    width: 40px;
+    height: 40px;
+    position: relative;
+    display: block;
+    z-index: 2;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    background-color: rgba(255,255,255,0.9);
+}
+
+#chatMessages li.mine .avatar {
+    order: 2;
+    width: 15px;
+}
+
+#chatMessages li .avatar img {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    -webkit-border-radius: 100%;
+    -moz-border-radius: 100%;
+    -ms-border-radius: 100%;
+    background-color: rgba(255,255,255,0.9);
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+#chatMessages li .msg {
+    background: #f9f9f9;
+    min-width: 50px;
+    padding: 10px;
+    border-radius: 2px;
+    box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.07);
+    max-width: 40%;
+    border-radius: 10px;
+}
+
+#chatMessages li .other .msg {
+    order: 1;
+    border-top-left-radius: 0px;
+    box-shadow: -1px 2px 0px #D4D4D4;
+}
+
+#chatMessages li .mine .msg {
+    order: 1;
+    border-bottom-right-radius: 0px;
+    box-shadow: 1px 2px 0px #D4D4D4;
+}
+
+#chatMessages li .msg p {
+    margin: 0 0 0.2rem 0;
+    color: #777;
+}
+
+#chatMessages li .msg time {
+    color: #ccc;
+    margin-top: 3px;
+    float: right;
+    cursor: default;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+
+#messageToSend {
+    border: 0;
+    box-shadow: none;
+}
+
+#sendMessageDIV button {
+    border-radius: 100px;
+    border: 0;
+    background: transparent;
+    font-size: 20px;
+}
+
+#chatMessages li.mine .msg {
+    background: #0084ff;
+}
+
+#chatMessages li.mine .msg p {
+    color: #fff;
+}
+
+.tooltip.left .tooltip-arrow,
+.tooltip.right .tooltip-arrow{
+    width: auto;
+}
+

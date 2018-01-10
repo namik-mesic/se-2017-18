@@ -4,11 +4,15 @@ var loader = '<div class="loader"><div class="timer"></div></div>';
 
 $(document).ready(function () {
 
-    getConversation('');
+    $('body').tooltip({
+        selector: '[data-toggle=tooltip]'
+    });
+
+    getConversations('');
 
     $('#getConversations').on('click', function () {
         changeSearch('conversations');
-        getConversation('');
+        getConversations('');
         resetSearch();
     });
 
@@ -30,12 +34,17 @@ $(document).ready(function () {
 
     $('#searchConversations').on('click', function () {
         var searchQuery = $('#searchConversationQuery').val().toString().trim();
-       getConversation(searchQuery);
+       getConversations(searchQuery);
     });
 
     $('#searchFriends').on('click', function () {
         var searchQuery = $('#searchFriendsQuery').val().toString().trim();
         getFriends(searchQuery);
+    });
+
+    $('#conversations').on('click', '.card-conversation', function () {
+        var conversationId = $(this).data('conversation');
+        getConversation(conversationId);
     });
 });
 
@@ -53,7 +62,7 @@ function showSidebar() {
     $('#sidebarButton').hide();
 }
 
-function getConversation(searchQuery) {
+function getConversations(searchQuery) {
     $('.conversations-list').html(loader);
 
     $.get("/api/conversation/getAll/" + AuthUser.id, {searchQuery: searchQuery} ,function (conversations) {
@@ -145,4 +154,53 @@ function changeSearch(type) {
 
 function resetSearch() {
     $('.search-conversation').find('input').val('');
+}
+
+function getConversation(conversationId) {
+    $('#chat-window').html(loader);
+
+    $.get("/api/message/getAll/" + conversationId, {user: AuthUser.id}, function (messages) {
+        messages = JSON.parse(messages);
+
+        var messagesHTML = '';
+
+        if (messages.data.length < 1) {
+            messagesHTML = '<p class="no-data">No messages with this friend. Say hello to him/her.</p>';
+        } else {
+            messagesHTML += '<ul id="chatMessages">';
+            var lastUserId;
+            messages.data.forEach(function (message) {
+                var whoseMessage = '';
+                var tooltipWhere = '';
+
+                if (message.user.data.id !== AuthUser.id) {
+                    whoseMessage = 'other';
+                    tooltipWhere = 'right';
+                } else {
+                    whoseMessage = 'mine';
+                    tooltipWhere = 'left';
+                }
+                messagesHTML += '<li class="' + whoseMessage + '">';
+
+                if(whoseMessage === 'other' && message.user.data.id !== lastUserId) {
+                    messagesHTML += '<div class="avatar">' +
+                        '<img src="' + '/images/chat/default_user.jpg' + '" draggable="false">' +
+                        '</div>';
+                } else {
+                    messagesHTML += '<div class="avatar"></div>';
+                }
+                messagesHTML += '<div class="msg" data-toggle="tooltip" data-placement="' + tooltipWhere + '" title="' + message.time + '">' +
+                                '<p>' + message.text + '</p>' +
+                                '<div class="deleteMessage"></div>' +
+                                '</div>';
+                lastUserId = message.user.data.id;
+            });
+
+            messagesHTML += '</ul>';
+        }
+
+        messagesHTML += '<div class="add-button line-top"><div id="sendMessageDiv" class="input-group"><input id="messageToSend" type="text" placeholder="Type message.." class="form-control"> <span class="input-group-btn"><button id="sendMessage" type="button" class="btn btn-default"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button></span></div></div>';
+
+        $('#chat-window').html(messagesHTML);
+    });
 }

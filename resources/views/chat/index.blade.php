@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('styles')
-    <link href="{{ asset('css/chat/selectize.bootstrap3.css') }}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{ asset('css/chat/chat.css') }}" rel="stylesheet">
 @endsection
 
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="add-button">
+                <div class="add-button line-right">
                     <button id="add-group" class="btn btn-success btn-add-conversation">Add group</button>
                 </div>
             </div>
@@ -83,7 +83,7 @@
                 </div>
                 <div class="conversations-list">
                 </div>
-                <div class="add-button">
+                <div class="add-button line-right">
                     <div class="btn-group text-center" role="group" aria-label="Chat buttons">
                         <button id="getConversations" type="button" class="btn btn-success btn-add-conversation btn-half">Conversations</button>
                         <button id="getFriends" type="button" class="btn btn-success btn-add-conversation btn-half">Friends</button>
