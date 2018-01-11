@@ -37,16 +37,5 @@ class Conversation extends Model
         return $this->hasMany('App\Message');
     }
 
-    /**
-     * Scope to get all unread messages from conversation.
-     *
-     * @param $query
-     * @return mixed
-     */
-    public function scopeUnread($query)
-    {
-        return $query->where('unread', '==', false);
-    }
-
 
 }

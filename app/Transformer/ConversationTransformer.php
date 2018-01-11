@@ -2,6 +2,7 @@
 
 namespace App\Transformer;
 use App\Conversation;
+use App\Message;
 use League\Fractal\TransformerAbstract;
 
 /**
@@ -27,7 +28,8 @@ class ConversationTransformer extends TransformerAbstract
             'notifications' => $conversation->notifications,
             'ignored' => $conversation->ignored,
             'blocked' => $conversation->blocked,
-            'created_at' => $conversation->created_at
+            'created_at' => $conversation->created_at,
+            'hasUnreadMessages' => $this->hasUnreadMessages($conversation)
         ];
     }
 
@@ -41,6 +43,16 @@ class ConversationTransformer extends TransformerAbstract
         $messages = $conversation->messages;
 
         return $this->collection($messages, new MessageTransformer);
+    }
+
+    public function hasUnreadMessages(Conversation $conversation) {
+        $hasUnreadMessages = Message::where('conversation_id', '=', $conversation->id)->unread()->first();
+
+        if ($hasUnreadMessages === null) {
+            return false;
+        }
+
+        return true;
     }
 
 }

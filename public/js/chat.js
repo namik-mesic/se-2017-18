@@ -44,7 +44,36 @@ $(document).ready(function () {
 
     $('#conversations').on('click', '.card-conversation', function () {
         var conversationId = $(this).data('conversation');
-        getConversation(conversationId);
+        $(this).find('.corner-ribbon').removeClass('red');
+        $(this).find('.corner-ribbon').addClass('green');
+        getMessages(conversationId);
+    });
+
+    $('#chat-window').on('click', '#sendMessage', function () {
+        var message = $('#messageToSend').val().toString().trim();
+        var conversation = $('#chatMessages').data('conversation');
+
+        $(this).attr('disabled', true);
+
+        if (message.length > 0) {
+           postUserMessage(message, conversation, AuthUser.id);
+        } else {
+            $(this).attr('disabled', false);
+        }
+    });
+
+    $('#chat-window').on('click', '#deleteMessage', function () {
+        var message = $(this).closest('li').data('message');
+        $.confirm({
+            title: 'Delete Message',
+            content: 'Are you sure you want to delete this message?',
+            buttons: {
+                cancel: function () {},
+                confirm: function () {
+                    deleteMessage(message);
+                },
+            }
+        });
     });
 });
 
@@ -78,7 +107,7 @@ function getConversations(searchQuery) {
             conversations.data.forEach(function (conversation) {
                 conversationHTML += '<div class="card card-conversation" data-conversation="' + conversation.id + '">';
                 conversationHTML += '<div class="chat-images">';
-                if(conversation.messages.data.length > 0) {
+                if(conversation.hasUnreadMessages) {
                     conversationHTML += '<div class="corner-ribbon top-right sticky red"></div>';
                 }
                 conversation.users.data.forEach(function (user, index) {
@@ -156,7 +185,7 @@ function resetSearch() {
     $('.search-conversation').find('input').val('');
 }
 
-function getConversation(conversationId) {
+function getMessages(conversationId) {
     $('#chat-window').html(loader);
 
     $.get("/api/message/getAll/" + conversationId, {user: AuthUser.id}, function (messages) {
@@ -167,9 +196,11 @@ function getConversation(conversationId) {
         if (messages.data.length < 1) {
             messagesHTML = '<p class="no-data">No messages with this friend. Say hello to him/her.</p>';
         } else {
-            messagesHTML += '<ul id="chatMessages">';
+            messagesHTML += '<ul id="chatMessages" data-conversation="' + conversationId + '">';
             var lastUserId;
+            var lastMessageTime = 0;
             messages.data.forEach(function (message) {
+                var messageDate = new Date(message.created_at.date).toDateString();
                 var whoseMessage = '';
                 var tooltipWhere = '';
 
@@ -180,20 +211,27 @@ function getConversation(conversationId) {
                     whoseMessage = 'mine';
                     tooltipWhere = 'left';
                 }
-                messagesHTML += '<li class="' + whoseMessage + '">';
+
+                if (new Date(messageDate).getTime() !== new Date(lastMessageTime).getTime()) {
+                    messagesHTML += '<div class="day"><p>' + messageDate + '</p></div>';
+                }
+
+                messagesHTML += '<li class="' + whoseMessage + '" data-message="' + message.id + '">';
 
                 if(whoseMessage === 'other' && message.user.data.id !== lastUserId) {
-                    messagesHTML += '<div class="avatar">' +
+                    messagesHTML += '<div class="avatar" data-toggle="tooltip" data-placement="bottom" title="' + message.user.data.name + '">' +
                         '<img src="' + '/images/chat/default_user.jpg' + '" draggable="false">' +
                         '</div>';
-                } else {
+                } else if (whoseMessage === 'other') {
                     messagesHTML += '<div class="avatar"></div>';
                 }
                 messagesHTML += '<div class="msg" data-toggle="tooltip" data-placement="' + tooltipWhere + '" title="' + message.time + '">' +
                                 '<p>' + message.text + '</p>' +
-                                '<div class="deleteMessage"></div>' +
+                                '<div class="hover"><a id="deleteMessage"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>' +
                                 '</div>';
+                messagesHTML += '</li>';
                 lastUserId = message.user.data.id;
+                lastMessageTime = messageDate;
             });
 
             messagesHTML += '</ul>';
@@ -202,5 +240,57 @@ function getConversation(conversationId) {
         messagesHTML += '<div class="add-button line-top"><div id="sendMessageDiv" class="input-group"><input id="messageToSend" type="text" placeholder="Type message.." class="form-control"> <span class="input-group-btn"><button id="sendMessage" type="button" class="btn btn-default"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button></span></div></div>';
 
         $('#chat-window').html(messagesHTML);
+        $('#chatMessages').animate({scrollTop: $('#chatMessages').prop("scrollHeight")}, 500);
     });
+}
+
+function postUserMessage(message, conversationId, userId) {
+    var data = {
+        message: message,
+        conversation_id: conversationId,
+        user_id: userId
+    };
+
+    $.post("/api/message", data)
+        .done( function(response) {
+            if (response.success) {
+                var messageTime = moment().format('h:mm A');
+                var messageHTML = '';
+
+                messageHTML += '<li class="mine" data-message="' + response.message_id + '">';
+                messageHTML += '<div class="msg" data-toggle="tooltip" data-placement="left" title="' + messageTime + '">' +
+                    '<p>' + message + '</p>' +
+                    '<div class="hover"><a id="deleteMessage"><i class="fa fa-trash-o" aria-hidden="true"></i></a></div>' +
+                    '</div>' +
+                    '</li>';
+            }
+
+            sendMessageSound();
+            $('#chatMessages').append(messageHTML);
+            $('#chatMessages').animate({scrollTop: $('#chatMessages').prop("scrollHeight")}, 500);
+
+            $('#messageToSend').val('');
+            $('#sendMessage').attr('disabled', false);
+        });
+
+}
+
+$.fn.scrollDown=function(){
+    var el=$(this);
+    el.scrollTop(el[0].scrollHeight);
+};
+
+function deleteMessage(messageId) {
+    $.ajax({
+        method: 'DELETE',
+        url: '/api/message/delete/' + messageId
+    }).done( function(response) {
+        if (response.success) {
+            $('#chatMessages').find('li[data-message="' + messageId + '"]').hide(500);
+        }
+    });
+}
+
+function sendMessageSound(){
+    $.playSound('../sounds/chat/send-message.ogg');
 }

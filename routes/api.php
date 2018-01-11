@@ -19,7 +19,15 @@ Route::group([
 ], function () {
 
     Route::resource('user', 'UserController');
-    Route::get('conversation/getAll/{id}', 'ConversationController@index');
+
+    // User routes
     Route::get('user/getAll/{id}', 'UserController@getAllExceptAuth');
+
+    // Conversation routes
+    Route::get('conversation/getAll/{id}', 'ConversationController@index');
+
+    // Message routes
     Route::get('message/getAll/{id}', 'MessageController@getMessagesOfConversation');
+    Route::post('message', 'MessageController@store');
+    Route::delete('message/delete/{id}', 'MessageController@destroy');
 });

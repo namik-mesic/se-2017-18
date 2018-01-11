@@ -27,7 +27,7 @@ class MessageTransformer extends TransformerAbstract
             'deleted' => $message->deleted,
             'hidden' => $message->hidden,
             'date' => Carbon::createFromTimestamp(strtotime($message->created_at))->diffForHumans(),
-            'time' => $message->created_at->format('H:i'),
+            'time' => $message->created_at->format('h:i A'),
             'created_at' => $message->created_at,
             'updated_at' => $message->updated_at,
         ];
