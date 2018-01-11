@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     getConversations('');
 
-    setInterval(function () {-
+    setInterval(function () {
         var conversationId = null;
         var lastPoll;
 
