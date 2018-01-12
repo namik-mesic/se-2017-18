@@ -28,8 +28,10 @@ class MessageTransformer extends TransformerAbstract
             'hidden' => $message->hidden,
             'date' => Carbon::createFromTimestamp(strtotime($message->created_at))->diffForHumans(),
             'time' => $message->created_at->format('h:i A'),
+            'last_poll' => Carbon::now(),
             'created_at' => $message->created_at,
             'updated_at' => $message->updated_at,
+            'conversation' => $message->conversation
         ];
     }
 
@@ -38,4 +40,6 @@ class MessageTransformer extends TransformerAbstract
 
         return $this->item($user, new UserTransformer);
     }
+
+
 }

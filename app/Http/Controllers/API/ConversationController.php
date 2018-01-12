@@ -41,4 +41,18 @@ class ConversationController extends BaseController
 
         return $this->jsonCollection($conversations, new ConversationTransformer);
     }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function getConversationWithUser(Request $request) {
+
+        $user = User::find($request->authUser);
+
+        $conversation = $this->conversationRepository
+            ->getConversationWithUser($request, $user);
+
+        return $this->jsonCollection($conversation, new ConversationTransformer);
+    }
 }

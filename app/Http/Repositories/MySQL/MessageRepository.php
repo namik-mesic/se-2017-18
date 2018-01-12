@@ -5,6 +5,8 @@ namespace App\Repositories\MySQL;
 use App\Message;
 use App\Repositories\MessageRepositoryInterface;
 use App\User;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
 /**
@@ -13,6 +15,19 @@ use Illuminate\Http\Request;
  */
 class MessageRepository implements MessageRepositoryInterface
 {
+
+    /**
+     * @var ConversationRepository
+     */
+    private $conversationRepository;
+
+    /**
+     * MessageRepository constructor.
+     */
+    public function __construct()
+    {
+        $this->conversationRepository = app(ConversationRepository::class);
+    }
 
     /**
      * Get all messages of the conversation.
@@ -24,7 +39,7 @@ class MessageRepository implements MessageRepositoryInterface
     {
         $this->updateMessagesToRead($request);
 
-        return Message::where('conversation_id', '=', $request->id)->where('deleted', '=', false)->get();
+        return Message::where('conversation_id', '=', $request->id)->get();
     }
 
     /**
@@ -46,25 +61,26 @@ class MessageRepository implements MessageRepositoryInterface
      */
     public function createMessage(Request $request)
     {
+        $conversationId = $request->conversation_id;
+
+        if($request->to_user !== null) {
+            $conversation = $this->conversationRepository
+                ->createConversation($request);
+
+            $conversationId = $conversation->id;
+        }
+
         $message = new Message;
 
         $message->text = $request->message;
-        $message->conversation_id = $request->conversation_id;
+        $message->conversation_id = $conversationId;
         $message->user_id = $request->user_id;
         $message->read = true;
 
         if($message->save()) {
-            return response()->json([
-                'success' => true,
-                'message_id' => $message->id,
-                'message' => 'Message created successfully.'
-            ]);
+            $messageCollection = new Collection(collect([$message]));
+            return $messageCollection;
         }
-
-        return response()->json([
-            'success' => false,
-            'message' => 'There was a problem while sending a message.'
-        ]);
     }
 
     /**
@@ -75,9 +91,14 @@ class MessageRepository implements MessageRepositoryInterface
     {
         $message = Message::find($id);
 
-        $message->deleted = true;
+        if($message->delete()) {
+            $hasMessages = $message->conversation()->has('messages')->count();
+            if ($hasMessages === 0) {
+                $conversationId = $message->conversation->id;
 
-        if($message->save()) {
+                $this->conversationRepository
+                    ->deleteConversation($conversationId);
+            }
             return response()->json([
                 'success' => true,
                 'message' => 'Message deleted successfully.'
@@ -88,5 +109,21 @@ class MessageRepository implements MessageRepositoryInterface
             'success' => false,
             'message' => 'There was a problem while deleting a message.'
         ]);
+    }
+
+    /**
+     * Get only new messages of the conversation.
+     *
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getNewMessagesOfConversation(Request $request)
+    {
+        $this->updateMessagesToRead($request);
+
+        return Message::where('conversation_id', '=', $request->id)
+            ->where('user_id', '!=', $request->user)
+            ->where('id', '>', $request->last_poll)
+            ->get();
     }
 }

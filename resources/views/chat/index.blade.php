@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div id="chat-window" class="col-md-6 no-padding white-background">
+            <div id="chat-window" class="col-md-6 no-padding white-background flex-col">
                 <div class="chat-no-messages">Choose conversation on the left to <b>start chat</b> with your friends!</div>
                 <div class="chat-image"></div>
             </div>
@@ -105,5 +105,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
     <script src='https://cdn.rawgit.com/admsev/jquery-play-sound/master/jquery.playSound.js'></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
     <script src="{{ asset('js/chat.js') }}"></script>
 @endsection

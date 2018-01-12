@@ -21,7 +21,7 @@ class CreateChatParticipantTable extends Migration
             $table->integer('conversation_id')->unsigned();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('conversation_id')->references('id')->on('conversations');
+            $table->foreign('conversation_id')->references('id')->on('conversations')->onDelete('cascade');
 
 
             $table->timestamps();

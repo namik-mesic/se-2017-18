@@ -25,9 +25,11 @@ Route::group([
 
     // Conversation routes
     Route::get('conversation/getAll/{id}', 'ConversationController@index');
+    Route::get('conversation/getWith/{id}', 'ConversationController@getConversationWithUser');
 
     // Message routes
     Route::get('message/getAll/{id}', 'MessageController@getMessagesOfConversation');
+    Route::get('message/getNew/{id}', 'MessageController@getNewMessagesOfConversation');
     Route::post('message', 'MessageController@store');
     Route::delete('message/delete/{id}', 'MessageController@destroy');
 });

@@ -6,6 +6,7 @@ use App\Message;
 use App\Repositories\MySQL\MessageRepository;
 use App\Transformer\MessageTransformer;
 use App\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
@@ -49,7 +50,9 @@ class MessageController extends BaseController
      */
     public function store(Request $request) {
 
-        return $this->messageRepository->createMessage($request);
+        $message = $this->messageRepository->createMessage($request);
+
+        return $this->jsonCollection($message, new MessageTransformer);
 
     }
 
@@ -59,5 +62,18 @@ class MessageController extends BaseController
      */
     public function destroy($id) {
         return $this->messageRepository->deleteMessage($id);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse|string
+     */
+    public function getNewMessagesOfConversation(Request $request)
+    {
+
+        $messages = $this->messageRepository
+            ->getNewMessagesOfConversation($request);
+
+        return $this->jsonCollection($messages, new MessageTransformer);
     }
 }

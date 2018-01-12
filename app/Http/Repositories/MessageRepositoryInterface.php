@@ -36,4 +36,12 @@ interface MessageRepositoryInterface {
      * @return mixed
      */
     public function deleteMessage($id);
+
+    /**
+     * Get only new messages of the conversation.
+     *
+     * @param Request $request
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getNewMessagesOfConversation(Request $request);
 }
