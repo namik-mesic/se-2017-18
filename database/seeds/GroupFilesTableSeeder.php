@@ -14,6 +14,6 @@ class GroupFilesTableSeeder extends Seeder
         DB::table('files')
             ->delete();
 
-        factory(App\File::class)->times(50)->create();
+        factory(App\File::class)->times(5000)->create();
     }
 }

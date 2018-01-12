@@ -34,4 +34,9 @@ class HomeController extends Controller
 
         return view('search', compact('users', 'groups'));
     }
+
+    public function index(){
+        $user = User::all();
+        return view('home', compact('user'));
+    }
 }

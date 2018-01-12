@@ -1,7 +1,5 @@
 <?php
-
 use Illuminate\Database\Seeder;
-
 class UserTableSeeder extends Seeder
 {
     public function run()
@@ -11,10 +9,8 @@ class UserTableSeeder extends Seeder
 //
 //        User::query()
 //            ->delete();
-
         DB::table('users')
             ->delete();
-
         factory(App\User::class)->times(50)->create();
     }
 }

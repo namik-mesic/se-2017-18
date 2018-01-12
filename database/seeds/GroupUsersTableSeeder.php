@@ -14,6 +14,6 @@ class GroupUsersTableSeeder extends Seeder
         DB::table('group_users')
             ->delete();
 
-        factory(App\GroupUser::class)->times(50)->create();
+        factory(App\GroupUser::class)->times(100)->create();
     }
 }

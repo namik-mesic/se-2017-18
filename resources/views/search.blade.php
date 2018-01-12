@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -50,7 +52,7 @@
                         @foreach($groups as $group)
                             <tr>
                                 <td>
-                                    <a href="{{ route('profile', $group['id']) }}">{{ $group['name'] }}</a>
+                                    <a href="{{ route('group', $group['id']) }}">{{ $group['name'] }}</a>
                                 </td>
                                 <td>
                                     <button>

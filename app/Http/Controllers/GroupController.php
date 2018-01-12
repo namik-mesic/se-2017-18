@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use Illuminate\Http\Request;
 use App\Group;
 use Illuminate\Support\Facades\DB;
@@ -87,12 +88,13 @@ class GroupController extends Controller
     public function group($id){
         $group = Group::find($id)->get();
 
-        $posts = Group::find($id)->posts;
+        $posts = [];
 
         $members = DB::table('users')
             ->join('group_users', 'users.id', '=', 'group_users.user_id')
             ->where('group_users.group_id', '=', $id)
             ->get();
+
 
         $files = Group::find($id)->files;
 

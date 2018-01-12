@@ -14,6 +14,6 @@ class GroupTableSeeder extends Seeder
         DB::table('groups')
             ->delete();
 
-        factory(App\Group::class)->times(50)->create();
+        factory(App\Group::class)->times(100)->create();
     }
 }
