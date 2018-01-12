@@ -11,6 +11,12 @@
 |
 */
 
+Route::group(['middleware' => ['auth', 'bindings']], function () {
+
+    Route::resource('user', 'UserController');
+
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
