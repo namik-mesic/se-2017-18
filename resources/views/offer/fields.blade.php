@@ -8,7 +8,7 @@
     <textarea id="ingredients" name="ingredients" class="form-control">{{ $offer->ingredients }}</textarea>
 </div>
 
-<div class="form-group">
+    <div class="form-group">
     <label for="Cost">Cost</label>
     <div class="input-group">
         <input type="text" class="form-control" id="cost" name="cost" placeholder="Amount" value="{{ $offer->cost }}">

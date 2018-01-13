@@ -71,8 +71,9 @@ class OfferController extends Controller
     {
 
         $offer = Offer::find($id);
+        $categories = Offer::query()->select('category')->get();
 
-        return view('offer.edit', compact('offer'));
+        return view('offer.edit', compact('offer', 'categories'));
     }
 
     /**

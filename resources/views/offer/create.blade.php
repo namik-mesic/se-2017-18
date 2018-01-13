@@ -11,7 +11,6 @@
                 @include('offer.fields')
             </form>
 
-            @include('offer/validate')
         </div>
     </div>
 @endsection
