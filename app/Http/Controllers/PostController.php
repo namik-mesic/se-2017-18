@@ -14,48 +14,55 @@ class PostController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * @return View
-     */
-    public function index()
-    {
-//        $posts = Post::orderBy('created_at', 'desc')->get();
+
+    public function create(){
+
+    }
+
+    public function edit(){
+
+    }
+
+    public function delete($id){
+
+    }
+
+    public function change($id){
+
+    }
+
+    public function like($id){
+
+    }
+
+    public function unlike($id){
+
+    }
+
 //
-//        $comments = [];
-//        $likes = [];
-//        foreach ($posts as $post){
-//            $comments[] = $post->comments();
-//            $likes[] = $post->likes();
-//        }
+//    /**
+//     * @return View
+//     */
+//    public function create()
+//    {
+//        return view('post.create');
+//    }
 //
-//        return view('post.index', compact(
-//            'posts', 'likes', 'comments'
-//        ));
-    }
-
-    /**
-     * @return View
-     */
-    public function create()
-    {
-        return view('post.create');
-    }
-
-    /**
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $data['user_id'] = Auth::user()->id;
-
-        $post = Post::query()->create($data);
-
-        return redirect()->back();
-    }
-
-    public function like(){
-        return view('home');
-    }
+//    /**
+//     * @param Request $request
+//     * @return RedirectResponse
+//     */
+//    public function store(Request $request)
+//    {
+//        $data = $request->all();
+//        $data['user_id'] = Auth::user()->id;
+//
+//        $post = Post::query()->create($data);
+//
+//        return redirect()->back();
+//    }
+//
+//    public function like(){
+//        return view('home');
+//    }
 }

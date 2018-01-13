@@ -31,10 +31,6 @@ class HomeController extends Controller
 
         $comments = [];
         $likes = [];
-//        foreach ($posts as $post){
-//            $comments[] = $post->comments();
-//            $likes[] = $post->likes();
-//        }
 
         return view('home', compact(
             'posts', 'likes', 'comments'

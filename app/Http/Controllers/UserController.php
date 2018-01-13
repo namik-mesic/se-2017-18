@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Post;
 use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Auth;
 use Illuminate\View\View;
 
 /**
@@ -18,47 +20,89 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
-    /**
-     * @return View
-     */
-    public function index()
-    {
-        $users = User::all();
 
-        return view('user.index', compact(
-            'users'
-        ));
+    public function show($id){
+        if( $id == null ) $id = Auth::user()->$id;
+
+        $user = User::find($id);
+
+        $posts = Post::with('user', 'comment.likes')->get();
+
+        dd($posts);
+
+        return view('profile', compact('user', 'posts'));
     }
 
-    /**
-     * @return View
-     */
-    public function create()
-    {
-        return view('user.create');
+    public function edit($id){
+        return view('profile');
     }
 
-    /**
-     * @param CreateUserRequest $request
-     * @return RedirectResponse
-     */
-    public function store(Request $request)
-    {
-        $data = $request->all();
-        $data['password'] = bcrypt($data['password']);
+    public function delete($id){
+        $user = User::destroy($id);
 
-        $user = User::query()->create($data);
+        Auth::logout();
 
-        return redirect('user');
+        return view('/');
     }
 
-    public function profile($id){
-        $user = User::find($id)->get();
+    public function change($id){
 
-        $posts = User::find($id)->posts;
-
-        $friends = null;
-
-        return view('profile', compact('user', 'posts' ,'friends'));
     }
+
+    public function request($id){
+
+    }
+
+    public function accept($id){
+
+    }
+
+    public function ignore($id){
+
+    }
+
+
+//    /**
+//     * @return View
+//     */
+//    public function index()
+//    {
+//        $users = User::all();
+//
+//        return view('user.index', compact(
+//            'users'
+//        ));
+//    }
+//
+//    /**
+//     * @return View
+//     */
+//    public function create()
+//    {
+//        return view('user.create');
+//    }
+//
+//    /**
+//     * @param CreateUserRequest $request
+//     * @return RedirectResponse
+//     */
+//    public function store(Request $request)
+//    {
+//        $data = $request->all();
+//        $data['password'] = bcrypt($data['password']);
+//
+//        $user = User::query()->create($data);
+//
+//        return redirect('user');
+//    }
+//
+//    public function profile($id){
+//        $user = User::find($id)->get();
+//
+//        $posts = User::find($id)->posts;
+//
+//        $friends = null;
+//
+//        return view('profile', compact('user', 'posts' ,'friends'));
+//    }
 }
