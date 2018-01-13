@@ -16,10 +16,6 @@ class CreateConversationsTable extends Migration
         Schema::create('conversations', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name', 100)->nullable();
-            $table->boolean('featured')->default(false);
-            $table->boolean('notifications')->default(true);
-            $table->boolean('ignored')->default(false);
-            $table->boolean('blocked')->default(false);
 
             $table->timestamps();
         });

@@ -66,4 +66,16 @@ class ConversationController extends BaseController
 
         return $this->jsonCollection($conversation, new ConversationTransformer);
     }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function deleteUsersOfConversation(Request $request) {
+
+        $conversation = $this->conversationRepository
+            ->deleteUsersOfConversation($request);
+
+        return $this->jsonCollection($conversation, new ConversationTransformer);
+    }
 }

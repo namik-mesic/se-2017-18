@@ -134,4 +134,5 @@ class MessageRepository implements MessageRepositoryInterface
             ->where('id', '>', $request->last_poll)
             ->get();
     }
+
 }

@@ -8,13 +8,13 @@ use App\Repositories\ConversationRepositoryInterface;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class ConversationRepository
  * @package App\Repositories
  */
 class ConversationRepository implements ConversationRepositoryInterface {
+
     /**
      * Get all conversations of user that not contain object of auth user.
      *
@@ -46,7 +46,8 @@ class ConversationRepository implements ConversationRepositoryInterface {
             ])->whereHas(
                 'users', function ($query) use ($request) {
                     $query->where('users.name', 'like', '%' . $request->searchQuery . '%');
-            })->get();
+            })->orderBy('conversations.id', 'desc')
+             ->get();
 
     }
 
@@ -116,10 +117,33 @@ class ConversationRepository implements ConversationRepositoryInterface {
      */
     public function addUsersToConversation(Request $request)
     {
-        $conversation = Conversation::find($request->conversation_id);
+        if (is_array($request->users)) {
+            $conversation = Conversation::find($request->conversation_id);
+            $conversation->users()->attach($request->users);
 
-        $conversation->users()->attach($request->users);
+            return new Collection(collect([$conversation]));
+        }
+    }
 
-        return new Collection(collect([$conversation]));
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function deleteUsersOfConversation(Request $request)
+    {
+
+        if (is_array($request->users)) {
+
+            $conversation = Conversation::find($request->conversation_id);
+            $conversation->users()->detach($request->users);
+
+            $hasUsers = $conversation->users()->count() - 1;
+
+            if($hasUsers === 0) {
+                $conversation->delete();
+            }
+
+            return new Collection(collect([$conversation]));
+        }
     }
 }

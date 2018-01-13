@@ -28,6 +28,7 @@ Route::group([
     Route::get('conversation/getAll/{id}', 'ConversationController@index');
     Route::get('conversation/getWith/{id}', 'ConversationController@getConversationWithUser');
     Route::post('conversation/addUsers', 'ConversationController@addUsersToConversation');
+    Route::delete('conversation/deleteUsers', 'ConversationController@deleteUsersOfConversation');
 
     // Message routes
     Route::get('message/getAll/{id}', 'MessageController@getMessagesOfConversation');

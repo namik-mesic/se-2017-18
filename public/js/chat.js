@@ -12,14 +12,17 @@ $(document).ready(function () {
 
     getConversations('');
 
-    setInterval(function () {
+    setInterval(function () {-
         var conversationId = null;
         var lastPoll;
 
         if ($('#chat-window').find('#chatMessages').length > 0) {
             conversationId = $('#chatMessages').data('conversation');
-            lastPoll = $('#conversations').find('.card[data-conversation="' + conversationId + '"]').attr('data-message-last-poll');
-            pollNewMessagesOfConversation(conversationId, lastPoll);
+
+            if ($('#conversations').find('.card[data-conversation="' + conversationId + '"]').length > 0) {
+                lastPoll = $('#conversations').find('.card[data-conversation="' + conversationId + '"]').attr('data-message-last-poll');
+                pollNewMessagesOfConversation(conversationId, lastPoll);
+            }
         }
     }, 5000);
 
@@ -81,7 +84,7 @@ $(document).ready(function () {
         var message = $(this).closest('li').data('message');
         var warningText = 'Are you sure you want to delete this message?';
 
-        if($('#chatMessages').find('li').length === 1) {
+        if ($('#chatMessages').find('li').length === 1) {
             warningText = 'Are you sure you want to delete this message? <div class="alert alert-danger">This is the last message in this conversation, if you delete it, whole conversation will be deleted!</div>'
         }
         $.confirm({
@@ -106,6 +109,11 @@ $(document).ready(function () {
     $('#chat-window').on('click', '#addUser', function () {
         var conversationId = $('#chatMessages').data('conversation');
         getUsersThatAreNotInConversation(conversationId);
+    });
+
+    $('#chat-window').on('click', '#deleteUser', function () {
+        var conversationId = $('#chatMessages').data('conversation');
+        getUsersThatAreInConversation(conversationId);
     });
 });
 
@@ -242,7 +250,7 @@ function getMessages(conversationId, conversationUsers) {
 function postUserMessage(message, conversationId, userId) {
     var toUserId = null;
 
-    if($('#chat-window').find('.chat-no-messages').length > 0) {
+    if ($('#chat-window').find('.chat-no-messages').length > 0) {
         toUserId = $('.chat-no-messages').attr('data-to-user');
     }
 
@@ -272,6 +280,7 @@ function postUserMessage(message, conversationId, userId) {
                     $('#chatMessages').animate({scrollTop: $('#chatMessages').prop("scrollHeight")}, 500);
 
                     getConversations('');
+                    changeSearch('conversations');
                 } else {
                     messageHTML += '<li class="mine" data-message="' + messages.data["0"].id + '">';
                     messageHTML += '<div class="msg" data-toggle="tooltip" data-placement="left" title="' + messageTime + '">' +
@@ -299,7 +308,7 @@ $.fn.scrollDown = function () {
 
 function deleteMessage(messageId) {
 
-    if($('#chatMessages').find('li').length < 1) {
+    if ($('#chatMessages').find('li').length < 1) {
 
     }
     $.ajax({
@@ -308,22 +317,22 @@ function deleteMessage(messageId) {
     }).done(function (response) {
         if (response.success) {
             $('#chatMessages').find('li[data-message="' + messageId + '"]').hide(500, function () {
-               $(this).remove();
-               if($('#chatMessages').find('li').length < 1) {
-                   var deletedConversation = $('#chatMessages').data('conversation');
-                   $('#chat-window').html(startChat);
+                $(this).remove();
+                if ($('#chatMessages').find('li').length < 1) {
+                    var deletedConversation = $('#chatMessages').data('conversation');
+                    $('#chat-window').html(startChat);
 
-                   $('#conversations').find('.card[data-conversation="' + deletedConversation + '"]').hide(500, function () {
-                       $(this).remove();
-                   });
-               }
+                    $('#conversations').find('.card[data-conversation="' + deletedConversation + '"]').hide(500, function () {
+                        $(this).remove();
+                    });
+                }
             });
         }
     });
 }
 
 function sendMessageSound() {
-    if($('#enableSound').is(":checked")) {
+    if ($('#enableSound').is(":checked")) {
         $.playSound('../sounds/chat/send-message.ogg');
     }
 }
@@ -387,6 +396,8 @@ function getConversationWithUser(userId, userName) {
             conversationHTML += '<div class="add-button line-top"><div id="sendMessageDiv" class="input-group"><input id="messageToSend" type="text" placeholder="Type message.." class="form-control"> <span class="input-group-btn"><button id="sendMessage" type="button" class="btn btn-default"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button></span></div></div>';
         } else {
             conversationHTML = generateMessagesHTML(conversation.data["0"].messages, conversation.data["0"].id, conversation.data["0"].users);
+            getConversations('');
+            changeSearch('conversations');
         }
 
 
@@ -395,7 +406,7 @@ function getConversationWithUser(userId, userName) {
     });
 }
 
-function generateMessagesHTML(messages, conversationId, conversationUsers){
+function generateMessagesHTML(messages, conversationId, conversationUsers) {
     var messagesHTML = '';
 
     messagesHTML += '<div id="conversationData">';
@@ -403,7 +414,7 @@ function generateMessagesHTML(messages, conversationId, conversationUsers){
 
     var filteredUsers = {};
 
-    filteredUsers.data = conversationUsers.data.filter(function(user) {
+    filteredUsers.data = conversationUsers.data.filter(function (user) {
         return user.id !== AuthUser.id;
     });
 
@@ -520,7 +531,7 @@ function addUsersToConversation(conversationId, users) {
                 $('#conversationData').find('.users').find('span').hide(500);
                 var filteredUsers = {};
 
-                filteredUsers.data = conversation.data["0"].users.data.filter(function(user) {
+                filteredUsers.data = conversation.data["0"].users.data.filter(function (user) {
                     return user.id !== AuthUser.id;
                 });
 
@@ -536,7 +547,104 @@ function addUsersToConversation(conversationId, users) {
                 $('#conversations').find('.card[data-conversation="' + conversationId + '"]').data('conversation-users', filteredUsers);
 
                 getConversations('');
+                changeSearch('conversations');
 
             }
         });
 }
+
+function getUsersThatAreInConversation(conversationId) {
+
+    var content = '<select id="selectedDeleteUsers" data-placeholder="Select users..." multiple name="selectedUsers[]" class="chosen-select">';
+
+    users = $('#conversations').find('.card[data-conversation="' + conversationId + '"]').data('conversation-users');
+
+    users.data.forEach(function (user) {
+        content += '<option value="' + user.id + '">' + user.name + '</option>';
+    });
+
+    content += '</select>';
+
+    $.confirm({
+        title: 'Delete users',
+        content: '' + content,
+        buttons: {
+            formSubmit: {
+                text: 'Submit',
+                btnClass: 'btn-blue',
+                action: function () {
+                    var users = this.$content.find('#selectedDeleteUsers').val();
+                    deleteUserFromConversation(conversationId, users);
+                }
+            },
+            cancel: function () {
+            }
+        },
+        onContentReady: function () {
+            // bind to events
+            $(".chosen-select").chosen({no_results_text: "Oops, nothing found!", width: "100%"});
+            var jc = this;
+            this.$content.find('form').on('submit', function (e) {
+                // if the user submits the form by pressing enter in the field.
+                e.preventDefault();
+                jc.$$formSubmit.trigger('click'); // reference the button and click it
+            });
+        }
+    });
+}
+
+function deleteUserFromConversation(conversationId, users) {
+
+    var data = {
+        conversation_id: conversationId,
+        users: users
+    };
+
+    $.ajax({
+        method: 'DELETE',
+        url: '/api/conversation/deleteUsers',
+        data: data
+    }).done(function (conversation) {
+            conversation = JSON.parse(conversation);
+
+            if (conversation.data.length > 0) {
+                $('#conversationData').find('.users').find('span').hide(500);
+                var filteredUsers = {};
+
+                filteredUsers.data = conversation.data["0"].users.data.filter(function (user) {
+                    return user.id !== AuthUser.id;
+                });
+
+                filteredUsers.data.forEach(function (user) {
+                    var userHTML = '<span class="label label-primary badge-pill user-badge">' +
+                        '<img class="card-img-top" src="/images/chat/default_user.jpg" alt="' + user.name + '">' +
+                        '<span class="user-name">' + user.name + '</span>' +
+                        '</span>';
+
+                    $(userHTML).hide().appendTo("#conversationData .users").delay(500).show(1000);
+                });
+
+                $('#conversations').find('.card[data-conversation="' + conversationId + '"]').data('conversation-users', filteredUsers);
+
+                if(conversation.data["0"].users.data.length < 1) {
+                    $('#chat-window').html(startChat);
+                }
+
+                getConversations('');
+                changeSearch('conversations');
+
+            }
+        });
+}
+
+escapeJSON = function (str) {
+    return str
+        .replace(/[\\]/g, '\\\\')
+        .replace(/[\"]/g, '\\\"')
+        .replace(/[\/]/g, '\\/')
+        .replace(/[\b]/g, '\\b')
+        .replace(/[\f]/g, '\\f')
+        .replace(/[\n]/g, '\\n')
+        .replace(/[\r]/g, '\\r')
+        .replace(/[\t]/g, '\\t');
+};

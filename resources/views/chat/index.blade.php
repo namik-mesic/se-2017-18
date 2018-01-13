@@ -31,9 +31,6 @@
                 <div class="user-data row-flex flex-start flex-col">
                     <div class="user-image-frame user-image-big">
                         <div class="user-image">
-                            <div class="user-image-hover">
-                                <span class="icon-tools" data-toggle="tooltip" data-placement="bottom" title="Change image"></span>
-                            </div>
                         </div>
                     </div>
                     <div class="user-name text-center">
@@ -43,6 +40,7 @@
                         {{ Auth::user()->email }}
                     </div>
                 </div>
+                <!--
                 <div class="horizontal-divider"></div>
                 <div class="user-message-types row-flex flex-start flex-col">
                     <div class="type-list active">
@@ -67,6 +65,7 @@
                 <div class="add-button line-right">
                     <button id="add-group" class="btn btn-success btn-add-conversation">Add group</button>
                 </div>
+                -->
             </div>
             <div id="conversations" class="col-md-3 no-padding white-background line-right flex-col">
                 <div class="search-conversation">

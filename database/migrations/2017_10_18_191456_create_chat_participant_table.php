@@ -15,7 +15,6 @@ class CreateChatParticipantTable extends Migration
     {
         Schema::create('chat_participant', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nickname', 100)->nullable();
 
             $table->integer('user_id')->unsigned();
             $table->integer('conversation_id')->unsigned();

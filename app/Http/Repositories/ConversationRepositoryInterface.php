@@ -46,4 +46,10 @@ interface ConversationRepositoryInterface {
      * @return mixed
      */
     public function addUsersToConversation(Request $request);
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function deleteUsersOfConversation(Request $request);
 }

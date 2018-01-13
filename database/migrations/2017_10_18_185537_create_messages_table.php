@@ -16,9 +16,6 @@ class CreateMessagesTable extends Migration
         Schema::create('messages', function (Blueprint $table) {
             $table->increments('id');
             $table->text('text');
-            $table->boolean('read')->default(false);
-            $table->boolean('deleted')->default(false);
-            $table->boolean('hidden')->default(false);
 
             $table->integer('user_id')->unsigned();
             $table->integer('conversation_id')->unsigned();

@@ -44,4 +44,5 @@ interface MessageRepositoryInterface {
      * @return \Illuminate\Database\Eloquent\Collection
      */
     public function getNewMessagesOfConversation(Request $request);
+
 }

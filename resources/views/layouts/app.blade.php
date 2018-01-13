@@ -20,6 +20,9 @@
         <div id="sidebarButton">
             <span id="showSidebar" class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Show sidebar"></span>
         </div>
+        <div id="sidebarButtonMobile">
+            <span id="sidebarButtonMobile" class="icon-expand" data-toggle="tooltip" data-placement="bottom" title="Show sidebar"></span>
+        </div>
         <div class="container">
             <div class="navbar-header">
 
