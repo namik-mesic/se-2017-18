@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('twitter_username')->nullable();
             $table->string('github_username')->nullable();
             $table->string('profile_picture')->nullable();
+            $table->string('avatar')->default('default.jpg');
             $table->rememberToken();
             $table->timestamps();
         });

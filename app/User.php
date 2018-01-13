@@ -18,7 +18,7 @@ class User extends Authenticatable implements StaplerableInterface
      * @var array
      */
     protected $fillable = [
-        'avatar', 'name', 'email', 'password', 'location', 'bio', 'twitter_username', 'github_username', 'profile_picture'
+        'avatar', 'name', 'email', 'password', 'location', 'bio', 'twitter_username', 'github_username', 'profile_picture', 'activated', 'email_token',
     ];
 
     /**
@@ -36,9 +36,22 @@ class User extends Authenticatable implements StaplerableInterface
                 'medium' => '300x300',
                 'thumb' => '100x100'
             ]
-        ]);
+            ]);
 
         parent::__construct($attributes);
     }
+    public function activated()
+
+    {
+
+        $this->activated = 1;
+
+        $this->email_token = null;
+
+        $this->save();
+
+    }
+
+
 
 }

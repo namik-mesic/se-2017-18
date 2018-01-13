@@ -11,7 +11,13 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}"rel="stylesheet">
+    <link href="{{ asset('css/customZerina.css') }}"rel="stylesheet" >
+
+    {{--Crop--}}
+    <link rel="stylesheet" href="plugins/croppic/assets/css/main.css"/>
+    <link rel="stylesheet" href="plugins/croppic/assets/css/croppic.css"/>
+
 </head>
 <body>
 <div id="app">
@@ -36,7 +42,9 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    &nbsp;
+                    @if(Auth::user())
+                        <li><a href="{{ route('profile') }}">Profile</a></li>
+                    @endif
                 </ul>
 
                 <!-- Right Side Of Navbar -->

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\ProfileComment;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
 {
@@ -13,7 +16,9 @@ class ProfileController extends Controller
     }
 
     function getProfile() {
-        return view('profile.index');
+        $comments = ProfileComment::where('user_id', Auth::user()->id)->whereDate('created_at', DB::raw('CURDATE()'))->orderBy('created_at', 'desc')->get();
+
+        return view('profile.index', compact('comments'));
     }
 
     function getProfileUpdate() {
@@ -36,10 +41,35 @@ class ProfileController extends Controller
 
     public function index()
     {
-        $users = User::all();
+        return view('profile.index');
+    }
 
-        return view('profile.index', compact(
-            'users'
-        ));
+    public function deleteProfile()
+    {
+        $user = User::find(Auth::user()->id);
+
+        $user->delete();
+
+        Auth::logout();
+        return redirect('/login');
+    }
+
+    public function store(Request $request) {
+        $profileComment = new ProfileComment;
+
+        $profileComment->comment = $request->comment;
+        $profileComment->user_id = Auth::user()->id;
+
+        if ($profileComment->save()) {
+            return redirect()->back();
+        }
+    }
+
+    public function destroy($id) {
+        $profileComment = ProfileComment::find($id);
+
+        if ($profileComment->delete()) {
+            return redirect()->back();
+        }
     }
 }

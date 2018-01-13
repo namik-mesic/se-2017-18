@@ -1,6 +1,39 @@
 .custom-profile-photo {
     border-radius: 15px;
+    width: 60%;
+
+
+}
+.custom-list{
+
+}
+.i{
+    font-weight: bolder;
+    font-size: 18px;
+    list-style: none;
+}
+.ii{
+    font-weight: bolder;
+    font-size: 18px;
+    list-style: none;
+}
+.iii{
+    font-weight: bolder;
+    font-size:18px;
+    list-style: none;
+
 }
 .iiii{
     font-weight: bolder;
+    font-size: 18px;
+    list-style: none;
+}
+.batoni{
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+}
+.fb-share-button{
+    float: inherit;
+    margin-left: 8%;
 }

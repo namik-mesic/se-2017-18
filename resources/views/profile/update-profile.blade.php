@@ -28,6 +28,7 @@
                             </div>
                             <div class="form-group">
                                 <input type="file" name="avatar" class="form-control">
+
                             </div>
                             <button type="submit" class="btn btn-info pull-right">Update</button>
                         </form>
