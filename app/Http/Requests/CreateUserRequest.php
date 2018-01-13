@@ -1,6 +1,9 @@
 <?php
+
 namespace App\Http\Requests;
+
 use Illuminate\Foundation\Http\FormRequest;
+
 class CreateUserRequest extends FormRequest
 {
     /**
@@ -12,6 +15,7 @@ class CreateUserRequest extends FormRequest
     {
         return false;
     }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,7 +23,6 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-        ];
+        return [];
     }
 }

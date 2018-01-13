@@ -12,9 +12,20 @@ use App\advertisements;
 |
 */
 
+Route::group(['middleware' => ['auth', 'bindings']], function () {
+
+    Route::resource('user', 'UserController');
+
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 
 Auth::routes();
 
