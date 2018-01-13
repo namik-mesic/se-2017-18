@@ -11,7 +11,7 @@
 
                             <div class="row">
                                 <div class="col-md-6">
-                                    <img class='custom-profile-photo' src="{{ Auth::user()->avatar->url('thumb') }}" width="15px">
+                                    <img class='custom-profile-photo' src="{{ Auth::user()->avatar->url('medium') }}" width="15px">
                                     <div class="batoni">
                                         <a href="{{ route('profile-update') }}" class="btn btn-primary">Update profile</a>
                                         <a href="{{ route('profile-delete') }}" class="btn btn-primary">Delete profile</a>
