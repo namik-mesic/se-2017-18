@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
-use App\Repositories\UserRepositoryInterface;
 use App\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,27 +14,16 @@ use Illuminate\View\View;
  */
 class UserController extends Controller
 {
-    /**
-     * @var UserRepositoryInterface
-     */
-    protected $userRepository;
-
-    /**
-     * UserController constructor.
-     */
     public function __construct()
     {
-        $this->userRepository = app(UserRepositoryInterface::class);
+        $this->middleware('auth');
     }
-
     /**
-     * @param Request $request
      * @return View
      */
-    public function index(Request $request)
+    public function index()
     {
-        $users = $this->userRepository
-            ->getPaginated(10, $request->get('query'));
+        $users = User::all();
 
         return view('user.index', compact(
             'users'
@@ -54,44 +42,23 @@ class UserController extends Controller
      * @param CreateUserRequest $request
      * @return RedirectResponse
      */
-    public function store(CreateUserRequest $request)
+    public function store(Request $request)
     {
-        $this->userRepository->store($request);
+        $data = $request->all();
+        $data['password'] = bcrypt($data['password']);
+
+        $user = User::query()->create($data);
 
         return redirect('user');
     }
 
-    /**
-     * @param User $user
-     * @return View
-     */
-    public function edit(User $user)
-    {
-        return view('user.edit', compact(
-            'user'
-        ));
-    }
+    public function profile($id){
+        $user = User::find($id)->get();
 
-    /**
-     * @param User $user
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function update(User $user, Request $request)
-    {
-        $this->userRepository->update($user, $request);
+        $posts = User::find($id)->posts;
 
-        return redirect('user');
-    }
+        $friends = null;
 
-    /**
-     * @param User $user
-     * @return RedirectResponse
-     */
-    public function destroy(User $user)
-    {
-        $user->delete();
-
-        return redirect('user');
+        return view('profile', compact('user', 'posts' ,'friends'));
     }
 }

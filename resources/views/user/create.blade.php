@@ -25,7 +25,7 @@
                         @endif
 
                         <form action="{{ action('UserController@store') }}" method="POST">
-                            {!! csrf_field() !!}
+                            {{ csrf_field() }}
                             <div class="form-group">
                                 <label for="name">
                                     Name

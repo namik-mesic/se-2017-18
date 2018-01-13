@@ -12,16 +12,14 @@
 */
 
 Route::group(['middleware' => ['auth', 'bindings']], function () {
-
-    Route::resource('user', 'UserController');
-
+    Route::post('/search', 'HomeController@search')->name('search');
+    Route::post('/profile/{id}/post', 'PostController@store')->name('post');
 });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.register');
 });
-
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Auth::routes();

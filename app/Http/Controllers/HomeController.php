@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\MySQL\UserRepository;
-use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use App\Post;
+use App\User;
+use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
 {
@@ -25,11 +26,26 @@ class HomeController extends Controller
      */
     public function index()
     {
-        /** @var UserRepositoryInterface $repo */
-        $repo = app(UserRepositoryInterface::class);
+        // multiple relations possible
+        $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
 
-        $repo->getByNameLike('Namik');
+        $comments = [];
+        $likes = [];
+//        foreach ($posts as $post){
+//            $comments[] = $post->comments();
+//            $likes[] = $post->likes();
+//        }
 
-        return view('home');
+        return view('home', compact(
+            'posts', 'likes', 'comments'
+        ));
+    }
+
+    public function search(){
+        $search = Input::get('search');
+
+        $users = User::where('name', 'LIKE', '%' . $search . '%')->get();
+
+        return view('search', compact('users'));
     }
 }
