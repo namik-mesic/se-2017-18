@@ -35,6 +35,7 @@
                             </thead>
                             <tbody>
                             @foreach($invitedUsers as $user)
+                                @if($user->id != Auth::user()->id)
                                 <tr>
                                     <td>
                                         {{ $user->id }}
@@ -52,6 +53,7 @@
                                     </td>
 
                                 </tr>
+                                @endif
                             @endforeach
                             </tbody>
                         </table>

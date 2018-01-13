@@ -24,7 +24,13 @@
                             </div>
                         @endif
 
-                            <div class="jumbotron text-center">
+                            <div class="jumbotron text-right">
+                                <div style="float: left;">
+                                    <iframe src="https://www.google.com/maps/embed/v1/place?q={{ $event->place }}&zoom=15
+      &attribution_source=Google+Maps+Embed+API
+      &attribution_web_url=https://developers.google.com/maps/documentation/embed/&key= AIzaSyCpL8ZJ6NVhxPBqb2QOkU3cfCyWBjfQkUQ">
+                                    </iframe>
+                                </div>
                                 <h2>Event {{ $event->name }}</h2>
                                 <p>
                                     <strong>Description:</strong> {{ $event->description }}<br>

@@ -18,6 +18,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\View\View;
@@ -33,6 +34,7 @@ class EventController extends Controller
         $events = DB::table('events')
             ->select('*')
             ->where('events.user_id', '=', Auth::user()->id)
+            ->orderBy('events.created_at', 'desc')
             ->get();
 
         return view('event.index', compact(
@@ -84,6 +86,12 @@ class EventController extends Controller
     public function destroy(int $id) {
         $event = Event::find($id);
 
+        EventInvitation::query();
+
+        DB::table('event_invitations')
+        ->where('event_invitations.event_id', '=', $id)
+        ->delete();
+
         $event->delete();
         return Redirect::to('event');
     }
@@ -117,7 +125,24 @@ class EventController extends Controller
             $eventInvitation->user_id = $user_id;
             $eventInvitation->response = "";
             $eventInvitation->save();
+
+
+        $user = User::find($user_id);
+        $event = Event::find($event_id);
+
+        $this->sendEmailInvitation($user, $event) ;
+
         return redirect('event/' . $event_id . '/invite');
+    }
+
+    public function sendEmailInvitation($user, $event){
+        $data = array('name'=>$user->name, 'event'=>$event);
+
+        Mail::send(['text'=>'mail'], $data, function($message) use ($event, $user) {
+            $message->to($user->email, $user->name)->subject
+            ($event->name . ' Event Invitation');
+            $message->from('ssst.events@gmail.com','SSST Events');
+        });
     }
 
     public function invite(int $event_id) {

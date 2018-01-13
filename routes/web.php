@@ -32,5 +32,3 @@ Route::get('/event/{id}/invite/{user_id}', 'EventController@sendInvitation')->na
 Route::get('/invitations', 'EventInvitationsController@index')->name('invitations');
 
 Route::get('/invitations/{id}&{response}', 'EventInvitationsController@response')->name('response');
-
-

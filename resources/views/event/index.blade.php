@@ -38,7 +38,8 @@
                                 </td>
                                 <td>Place</td>
                                 <td>Date</td>
-                                <td>Hour</td>
+                                <td style="margin-right: 20px;">Hour</td>
+                                <td>From now</td>
                                 <td></td>
                                 <td></td>
                                 <td></td>
@@ -62,6 +63,9 @@
                                         {{ $event->date }}
                                     </td>
                                     <td>{{ $event->hour }}</td>
+                                    <td style="margin-right: 20px;">
+                                        {{(new DateTime($event->date))->diff(new DateTime())->format("%d days, %h hours and %i minutes")}}
+                                    </td>
                                     <td>
                                         <a class="btn btn-sm btn-info" href="/event/{{$event->id}}">Show</a>
                                     </td>
