@@ -8,8 +8,9 @@ $factory->define(App\advertisements::class, function (Faker $faker) {
 
     return [
         'titles' => $faker->name(),
-        'texts' => $faker->realText(50),
-
+        'description' => $faker->realText(50),
+        'image'=>$faker->realText(1000),
+        'url' => $faker->realText(15)
 
     ];
 });

@@ -16,8 +16,9 @@ class Adverts extends Migration
         Schema::create('advertisements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('titles');
-            $table->binary('image');
+           $table->string('image');
             $table->text('description');
+            $table->string('url');
             $table->timestamps();
 
 

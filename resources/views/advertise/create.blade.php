@@ -9,46 +9,58 @@
 
 
                     <div class="panel-body">
-        <form action="/advertise/create" method="POST" enctype="multipart/form-data">
+        <form class="form-horizontal" action="/advertise/create" method="POST" enctype="multipart/form-data">
 
             <input type="hidden" name="_token" value="{{csrf_token()}}">
 
-            <div>
-                <label for="">Title</label>
-                <input type="text" name="titles">
+            <div class="form-group">
+                <label for="titles" class="col-md-4 control-label">Title</label>
+                <div class="col-md-6">
+                <input id="titles" class="form-control" type="text" name="titles" >
+            </div></div>
+
+
+                <div class="form-group">
+                    <label for="image" class="col-md-4 control-label">Image</label>
+                    <div class="col-md-6">
+                        <input id=""  type="file" name="image" style="margin: 10px 0px 10px 3px">
+                    </div></div>
+
+
+                    <div class="form-group">
+                        <label for="titles" class="col-md-4 control-label">Description</label>
+                        <div class="col-md-6">
+                            <textarea id="description" class="form-control"
+                                      type="text" name="description" ></textarea>
+                        </div></div>
+
+
+
+                        <div class="form-group">
+                            <label for="titles" class="col-md-4 control-label">Url</label>
+                            <div class="col-md-6">
+                                <input id="url" class="form-control" type="text" name="url" >
+                            </div>
+
             </div>
 
-            <div>
-                <label for="">Image</label>
-                <input type="file" name="image" id="">
-            </div>
 
-            <div>
-                <label for="">Description</label>
-                <textarea name="description" id="" cols="30" rows="10"></textarea>
-            </div>
 
-            <div>
-                <label for="">Url</label>
-                <input type="text" name="url">
+                    <div class="form-group">
+                        <div class="col-md-6 col-md-offset-4">
+                            <button type="submit" class="btn btn-info btn-lg pull-right">
 
-            </div>
-                <div>
+                                Create
 
-                    <label for="">Category</label>
-                    <select name="category" id="">
-                        <option value="">Internships</option>
-                        <option value="">Courses</option>
-                        <option value="">Electronics</option>
-                        <option value="">Clubs</option>
-                        <option value="">Restaurants</option>
-                        <option value="">Gym</option>
-                    </select>
+                            </button>
+                        </div>
+                    </div>
 
-                </div>
 
-                <button>Create</button>
         </form>
+
+                        @include('advertise/validate');
+
                      </div>
                 </div>
             </div>

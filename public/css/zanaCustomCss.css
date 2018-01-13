@@ -1,0 +1,74 @@
+.custom-add {
+    border:  0.5px solid #d3e0e9;
+    float: right;
+    background: #fff;
+    text-align: justify;
+    margin:15px;
+    padding-bottom: 15px;
+}
+
+.col-md-8{
+
+    margin-left:18%;
+    width:66%;
+
+}
+
+.container {
+    width: 1070px;
+}
+
+.custom-card {
+    width: 33%;
+    word-wrap: break-word;
+}
+
+.custom-pagination {
+    display: block;
+    text-align: center
+}
+
+.custom-card .custom-add h4, .custom-add h4{
+    text-align: center;
+    text-decoration: underline;
+}
+
+.custom-card .custom-add {
+    width:100%;
+    height:70%;
+    margin-bottom:20px;
+    text-align: justify;
+    overflow: scroll;
+}
+
+
+
+
+
+.custom-add img.icon{
+    width:20px;
+    height:20px;
+
+
+
+}
+
+.picture{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+
+.buttons{
+
+    display: inline;
+
+}
+
+
+
+
+
+
+
+

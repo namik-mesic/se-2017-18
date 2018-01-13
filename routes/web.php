@@ -12,11 +12,13 @@ use App\advertisements;
 |
 */
 
-Route::group(['middleware' => ['auth', 'bindings']], function () {
+//Route::group(['middleware' => ['auth', 'bindings']], function () {
+
+
 
     Route::resource('user', 'UserController');
 
-});
+//});
 
 Route::get('/', function () {
     return view('welcome');
@@ -26,20 +28,27 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
 Route::resource('user', 'UserController');
 
-Route::get('/advertise', function (){
-    $ad = \App\advertisements::all()->random();
-    return view('advertise.index')->with('ad', $ad);
-});
-Route::get('advertise/create', function (){
+Route::get('/allads', 'advertiseController@show');
+
+
+
+Route::delete('/advertise/delete/{ad}', 'advertiseController@delete');
+
+Route::get('/advertise/edit/{ad}', 'advertiseController@edit');
+
+Route::post('/advertise/', 'advertiseController@store');
+
+Route::post('/advertise/update/{ad}', 'advertiseController@update');
+
+Route::get('/advertise', 'advertiseController@index');
+
+Route::get('advertise/create', function () {
     return view('advertise.create');
 });
+
+
 Route::post('advertise/create',function (){
     $image =\Illuminate\Support\Facades\Input::file('image');
     $move = $image->move('images/Advertisement', $image->getClientOriginalName());
@@ -51,7 +60,10 @@ Route::post('advertise/create',function (){
             'url'=> \Illuminate\Support\Facades\Input::get('url')
         ]);
         if($create){
-            var_dump("created...");
+            return redirect('/allads');
         }
-    }
-});
+    } });
+
+
+
+

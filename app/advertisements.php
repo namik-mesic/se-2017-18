@@ -13,6 +13,6 @@ class advertisements extends Model
     /**
      * @var
      */
-    protected $fillable = ['titles','image','description'];
+    protected $fillable = ['titles','description','image', 'url']; //
 
 }

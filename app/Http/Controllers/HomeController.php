@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\MySQL\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
+use App\advertisements;
 
 class HomeController extends Controller
 {
@@ -30,6 +31,8 @@ class HomeController extends Controller
 
         $repo->getByNameLike('Namik');
 
-        return view('home');
+        $ad = advertisements::all()->random();
+
+        return view('home', compact('ad'));
     }
 }

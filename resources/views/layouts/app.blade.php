@@ -12,6 +12,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('css/zanaCustomCss.css') }}">
 </head>
 <body>
 <div id="app">
@@ -79,6 +80,13 @@
                                     </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li class="">
+                            <a href="{{ action('advertiseController@show') }}" class="" data-toggle="" role="button" aria-expanded="false">
+                                Advertisements
+                            </a>
+
                         </li>
                     @endif
                 </ul>
