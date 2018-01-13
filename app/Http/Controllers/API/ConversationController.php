@@ -55,4 +55,15 @@ class ConversationController extends BaseController
 
         return $this->jsonCollection($conversation, new ConversationTransformer);
     }
+
+    /**
+     * @param Request $request
+     * @return string
+     */
+    public function addUsersToConversation(Request $request) {
+        $conversation = $this->conversationRepository
+            ->addUsersToConversation($request);
+
+        return $this->jsonCollection($conversation, new ConversationTransformer);
+    }
 }

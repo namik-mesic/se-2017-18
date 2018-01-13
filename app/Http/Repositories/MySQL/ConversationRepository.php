@@ -24,7 +24,17 @@ class ConversationRepository implements ConversationRepositoryInterface {
      */
     public function getUsersConversations(Request $request, User $user){
 
-        return User::find($user->id)
+        /*
+        return Conversation::select('conversations.*')
+            ->join('chat_participant', 'conversations.id', '=', 'chat_participant.conversation_id')
+            ->where('chat_participant.user_id', '=', $user->id)
+            ->join('messages', 'messages.conversation_id', '=', 'conversations.id')
+            ->groupBy('conversations.id')
+            ->orderBy('messages.id', 'desc')
+            ->get();
+        */
+
+         return User::find($user->id)
             ->conversations()
             ->with([
                 'users' => function ($query) use ($user, $request) {
@@ -33,9 +43,11 @@ class ConversationRepository implements ConversationRepositoryInterface {
                 'messages' => function ($query) use ($user, $request) {
                     $query->latest('id')->get();
                 }
-            ])->whereHas('users', function ($query) use ($request) {
-                $query->where('users.name', 'like', '%' . $request->searchQuery . '%');
+            ])->whereHas(
+                'users', function ($query) use ($request) {
+                    $query->where('users.name', 'like', '%' . $request->searchQuery . '%');
             })->get();
+
     }
 
     /**
@@ -96,5 +108,18 @@ class ConversationRepository implements ConversationRepositoryInterface {
             'success' => false,
             'message' => 'There was a problem while deleting a conversation.'
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @return mixed
+     */
+    public function addUsersToConversation(Request $request)
+    {
+        $conversation = Conversation::find($request->conversation_id);
+
+        $conversation->users()->attach($request->users);
+
+        return new Collection(collect([$conversation]));
     }
 }

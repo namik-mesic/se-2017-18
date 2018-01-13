@@ -1,6 +1,7 @@
 var REGEX_EMAIL = '([a-z0-9!#$%&\'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&\'*+/=?^_`{|}~-]+)*@' +
     '(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)';
 var loader = '<div class="loader"><div class="timer"></div></div>';
+var startChat = '<div class="chat-no-messages">Choose conversation on the left to <b>start chat</b> with your friends!</div> <div class="chat-image"></div>';
 
 $(document).ready(function () {
 
@@ -56,11 +57,11 @@ $(document).ready(function () {
 
     $('#conversations').on('click', '.card-conversation', function () {
         var conversationId = $(this).data('conversation');
-        var conversation = $(this).data('conversation-users');
+        var conversationUsers = $(this).data('conversation-users');
 
         $(this).find('.corner-ribbon').removeClass('red');
         $(this).find('.corner-ribbon').addClass('green');
-        getMessages(conversationId, conversation);
+        getMessages(conversationId, conversationUsers);
     });
 
     $('#chat-window').on('click', '#sendMessage', function () {
@@ -78,9 +79,14 @@ $(document).ready(function () {
 
     $('#chat-window').on('click', '#deleteMessage', function () {
         var message = $(this).closest('li').data('message');
+        var warningText = 'Are you sure you want to delete this message?';
+
+        if($('#chatMessages').find('li').length === 1) {
+            warningText = 'Are you sure you want to delete this message? <div class="alert alert-danger">This is the last message in this conversation, if you delete it, whole conversation will be deleted!</div>'
+        }
         $.confirm({
             title: 'Delete Message',
-            content: 'Are you sure you want to delete this message?',
+            content: warningText,
             buttons: {
                 cancel: function () {
                 },
@@ -98,42 +104,8 @@ $(document).ready(function () {
     });
 
     $('#chat-window').on('click', '#addUser', function () {
-        $.confirm({
-            title: 'Add users',
-            content: '' +
-            '<form action="" class="formName">' +
-            '<div class="form-group">' +
-            '<label>Enter something here</label>' +
-            '<input type="text" placeholder="Your name" class="name form-control" required />' +
-            '</div>' +
-            '</form>',
-            buttons: {
-                formSubmit: {
-                    text: 'Submit',
-                    btnClass: 'btn-blue',
-                    action: function () {
-                        var name = this.$content.find('.name').val();
-                        if(!name){
-                            $.alert('provide a valid name');
-                            return false;
-                        }
-                        $.alert('Your name is ' + name);
-                    }
-                },
-                cancel: function () {
-                    //close
-                },
-            },
-            onContentReady: function () {
-                // bind to events
-                var jc = this;
-                this.$content.find('form').on('submit', function (e) {
-                    // if the user submits the form by pressing enter in the field.
-                    e.preventDefault();
-                    jc.$$formSubmit.trigger('click'); // reference the button and click it
-                });
-            }
-        });
+        var conversationId = $('#chatMessages').data('conversation');
+        getUsersThatAreNotInConversation(conversationId);
     });
 });
 
@@ -245,7 +217,7 @@ function resetSearch() {
     $('.search-conversation').find('input').val('');
 }
 
-function getMessages(conversationId, conversation) {
+function getMessages(conversationId, conversationUsers) {
     $('#chat-window').html(loader);
 
     $.get("/api/message/getAll/" + conversationId, {user: AuthUser.id}, function (messages) {
@@ -256,7 +228,7 @@ function getMessages(conversationId, conversation) {
         if (messages.data.length < 1) {
             messagesHTML = '<p class="no-data">No messages with this friend. Say hello to him/her.</p>';
         } else {
-            messagesHTML = generateMessagesHTML(messages, conversationId, conversation);
+            messagesHTML = generateMessagesHTML(messages, conversationId, conversationUsers);
         }
 
         lastMessagePoll = messages.data[messages.data.length - 1].id;
@@ -293,11 +265,13 @@ function postUserMessage(message, conversationId, userId) {
                 if (toUserId !== null) {
                     $('#chat-window').html(loader);
 
-                    messageHTML = generateMessagesHTML(messages, messages.data["0"].conversation.id, messages.data["0"].conversation);
+                    messageHTML = generateMessagesHTML(messages, messages.data["0"].conversation.id, {"data": messages.data["0"].conversation.users});
 
                     sendMessageSound();
                     $('#chat-window').html(messageHTML);
                     $('#chatMessages').animate({scrollTop: $('#chatMessages').prop("scrollHeight")}, 500);
+
+                    getConversations('');
                 } else {
                     messageHTML += '<li class="mine" data-message="' + messages.data["0"].id + '">';
                     messageHTML += '<div class="msg" data-toggle="tooltip" data-placement="left" title="' + messageTime + '">' +
@@ -324,18 +298,34 @@ $.fn.scrollDown = function () {
 };
 
 function deleteMessage(messageId) {
+
+    if($('#chatMessages').find('li').length < 1) {
+
+    }
     $.ajax({
         method: 'DELETE',
         url: '/api/message/delete/' + messageId
     }).done(function (response) {
         if (response.success) {
-            $('#chatMessages').find('li[data-message="' + messageId + '"]').hide(500);
+            $('#chatMessages').find('li[data-message="' + messageId + '"]').hide(500, function () {
+               $(this).remove();
+               if($('#chatMessages').find('li').length < 1) {
+                   var deletedConversation = $('#chatMessages').data('conversation');
+                   $('#chat-window').html(startChat);
+
+                   $('#conversations').find('.card[data-conversation="' + deletedConversation + '"]').hide(500, function () {
+                       $(this).remove();
+                   });
+               }
+            });
         }
     });
 }
 
 function sendMessageSound() {
-    $.playSound('../sounds/chat/send-message.ogg');
+    if($('#enableSound').is(":checked")) {
+        $.playSound('../sounds/chat/send-message.ogg');
+    }
 }
 
 function pollNewMessagesOfConversation(conversationId, lastPoll) {
@@ -396,8 +386,7 @@ function getConversationWithUser(userId, userName) {
             conversationHTML = '<div class="chat-no-messages" data-to-user="' + userId + '">Say hello to <b>' + userName + '</b>!</div><div class="chat-image-hello"></div>';
             conversationHTML += '<div class="add-button line-top"><div id="sendMessageDiv" class="input-group"><input id="messageToSend" type="text" placeholder="Type message.." class="form-control"> <span class="input-group-btn"><button id="sendMessage" type="button" class="btn btn-default"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button></span></div></div>';
         } else {
-            conversationHTML = generateMessagesHTML(conversation.data["0"].messages, conversation.data["0"].id, conversation.data["0"]);
-            getConversations('');
+            conversationHTML = generateMessagesHTML(conversation.data["0"].messages, conversation.data["0"].id, conversation.data["0"].users);
         }
 
 
@@ -412,7 +401,13 @@ function generateMessagesHTML(messages, conversationId, conversationUsers){
     messagesHTML += '<div id="conversationData">';
     messagesHTML += '<div class="users">';
 
-    conversationUsers.data.forEach(function (user) {
+    var filteredUsers = {};
+
+    filteredUsers.data = conversationUsers.data.filter(function(user) {
+        return user.id !== AuthUser.id;
+    });
+
+    filteredUsers.data.forEach(function (user) {
         messagesHTML += '<span class="label label-primary badge-pill user-badge">' +
             '<img class="card-img-top" src="/images/chat/default_user.jpg" alt="' + user.name + '">' +
             '<span class="user-name">' + user.name + '</span>' +
@@ -420,7 +415,7 @@ function generateMessagesHTML(messages, conversationId, conversationUsers){
     });
 
     messagesHTML += '</div>';
-    messagesHTML += '<div class="addUsers"><button id="addUser" type="button" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i></button></div>';
+    messagesHTML += '<div class="addUsers"><button id="deleteUser" type="button" class="btn btn-default"><i class="fa fa-minus" aria-hidden="true"></i></button><button id="addUser" type="button" class="btn btn-default"><i class="fa fa-plus" aria-hidden="true"></i></button></div>';
     messagesHTML += '</div>';
 
     messagesHTML += '<ul id="chatMessages" data-conversation="' + conversationId + '">';
@@ -466,4 +461,82 @@ function generateMessagesHTML(messages, conversationId, conversationUsers){
     messagesHTML += '<div class="add-button line-top"><div id="sendMessageDiv" class="input-group"><input id="messageToSend" type="text" placeholder="Type message.." class="form-control"> <span class="input-group-btn"><button id="sendMessage" type="button" class="btn btn-default"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button></span></div></div>';
 
     return messagesHTML;
+}
+
+function getUsersThatAreNotInConversation(conversationId) {
+
+    $.get('/api/user/getNotInConversation/' + conversationId, function (users) {
+        var content = '<select id="selectedUsers" data-placeholder="Select users..." multiple name="selectedUsers[]" class="chosen-select">';
+
+        users = JSON.parse(users);
+
+        users.data.forEach(function (user) {
+            content += '<option value="' + user.id + '">' + user.name + '</option>';
+        });
+
+        content += '</select>';
+
+        $.confirm({
+            title: 'Add users',
+            content: '' + content,
+            buttons: {
+                formSubmit: {
+                    text: 'Submit',
+                    btnClass: 'btn-blue',
+                    action: function () {
+                        var users = this.$content.find('#selectedUsers').val();
+                        addUsersToConversation(conversationId, users);
+                    }
+                },
+                cancel: function () {
+                },
+            },
+            onContentReady: function () {
+                // bind to events
+                $(".chosen-select").chosen({no_results_text: "Oops, nothing found!", width: "100%"});
+                var jc = this;
+                this.$content.find('form').on('submit', function (e) {
+                    // if the user submits the form by pressing enter in the field.
+                    e.preventDefault();
+                    jc.$$formSubmit.trigger('click'); // reference the button and click it
+                });
+            }
+        });
+    });
+}
+
+function addUsersToConversation(conversationId, users) {
+
+    var data = {
+        conversation_id: conversationId,
+        users: users
+    };
+
+    $.post("/api/conversation/addUsers", data)
+        .done(function (conversation) {
+            conversation = JSON.parse(conversation);
+
+            if (conversation.data.length > 0) {
+                $('#conversationData').find('.users').find('span').hide(500);
+                var filteredUsers = {};
+
+                filteredUsers.data = conversation.data["0"].users.data.filter(function(user) {
+                    return user.id !== AuthUser.id;
+                });
+
+                filteredUsers.data.forEach(function (user) {
+                    var userHTML = '<span class="label label-primary badge-pill user-badge">' +
+                        '<img class="card-img-top" src="/images/chat/default_user.jpg" alt="' + user.name + '">' +
+                        '<span class="user-name">' + user.name + '</span>' +
+                        '</span>';
+
+                    $(userHTML).hide().appendTo("#conversationData .users").delay(500).show(1000);
+                });
+
+                $('#conversations').find('.card[data-conversation="' + conversationId + '"]').data('conversation-users', filteredUsers);
+
+                getConversations('');
+
+            }
+        });
 }

@@ -99,4 +99,15 @@ class UserRepository implements UserRepositoryInterface
     {
         return User::where('id', '!=', $request->id)->where('name', 'like', '%' . $request->searchQuery . '%')->get();
     }
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getAllThatAreNotInConversation($id)
+    {
+        return User::whereDoesntHave('conversations', function ($query) use ($id){
+                $query->where('conversations.id', '=', $id);
+            })->get();
+    }
 }

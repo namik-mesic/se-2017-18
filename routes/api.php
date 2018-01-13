@@ -22,10 +22,12 @@ Route::group([
 
     // User routes
     Route::get('user/getAll/{id}', 'UserController@getAllExceptAuth');
+    Route::get('user/getNotInConversation/{id}', 'UserController@getAllThatAreNotInConversation');
 
     // Conversation routes
     Route::get('conversation/getAll/{id}', 'ConversationController@index');
     Route::get('conversation/getWith/{id}', 'ConversationController@getConversationWithUser');
+    Route::post('conversation/addUsers', 'ConversationController@addUsersToConversation');
 
     // Message routes
     Route::get('message/getAll/{id}', 'MessageController@getMessagesOfConversation');

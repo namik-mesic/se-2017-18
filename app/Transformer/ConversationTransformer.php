@@ -28,8 +28,7 @@ class ConversationTransformer extends TransformerAbstract
             'notifications' => $conversation->notifications,
             'ignored' => $conversation->ignored,
             'blocked' => $conversation->blocked,
-            'created_at' => $conversation->created_at,
-            'hasUnreadMessages' => $this->hasUnreadMessages($conversation)
+            'created_at' => $conversation->created_at
         ];
     }
 
@@ -44,15 +43,4 @@ class ConversationTransformer extends TransformerAbstract
 
         return $this->collection($messages, new MessageTransformer);
     }
-
-    public function hasUnreadMessages(Conversation $conversation) {
-        $hasUnreadMessages = Message::where('conversation_id', '=', $conversation->id)->unread()->first();
-
-        if ($hasUnreadMessages === null) {
-            return false;
-        }
-
-        return true;
-    }
-
 }

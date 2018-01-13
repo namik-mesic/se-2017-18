@@ -18,5 +18,16 @@ interface UserRepositoryInterface
      */
     public function getByNameLike($nameLike);
 
+    /**
+     * @param User $user
+     * @param Request $request
+     * @return mixed
+     */
     public function getAllExceptAuth(User $user, Request $request);
+
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getAllThatAreNotInConversation($id);
 }

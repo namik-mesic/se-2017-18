@@ -78,8 +78,16 @@ class MessageRepository implements MessageRepositoryInterface
         $message->read = true;
 
         if($message->save()) {
-            $messageCollection = new Collection(collect([$message]));
-            return $messageCollection;
+            $message = $message
+                ->where('id', '=', $message->id)
+                ->with([
+                    'user',
+                    'conversation' => function ($query) use ($request) {
+                        $query->with(['users'])->get();
+                    }
+                ])->get();
+
+            return $message;
         }
     }
 

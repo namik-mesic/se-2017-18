@@ -49,11 +49,9 @@ class MessageController extends BaseController
      * @return mixed
      */
     public function store(Request $request) {
-
         $message = $this->messageRepository->createMessage($request);
 
         return $this->jsonCollection($message, new MessageTransformer);
-
     }
 
     /**

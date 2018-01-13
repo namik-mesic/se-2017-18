@@ -975,6 +975,7 @@ button:hover,
 #conversationData {
     padding: 10px;
     border-bottom: 1px solid #efefef;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.07);
 }
 
 #conversationData .users {
@@ -1012,7 +1013,8 @@ button:hover,
     text-align: right;
 }
 
-#addUser {
+#addUser,
+#deleteUser {
     border: 0;
     background: #6f6f6f;
     color: #fff;
@@ -1020,4 +1022,24 @@ button:hover,
     font-size: 12px;
     padding: 10px 12px;
     margin: 4px 0px;
+}
+
+#deleteUser {
+    margin-right: 10px;
+}
+
+.jconfirm .jconfirm-box div.jconfirm-content-pane .jconfirm-content {
+    overflow: unset!important;
+}
+.jconfirm .jconfirm-box div.jconfirm-content-pane.no-scroll {
+    overflow-y: unset!important;
+}
+
+.jconfirm .jconfirm-box div.jconfirm-content-pane {
+    overflow-x: unset!important;
+    overflow-y: unset!important;
+}
+
+.jconfirm .jconfirm-box {
+    overflow: unset!important;
 }

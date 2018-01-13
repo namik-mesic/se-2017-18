@@ -56,4 +56,12 @@ class UserController extends BaseController
 
         return $this->jsonCollection($users, new UserTransformer);
     }
+
+    public function getAllThatAreNotInConversation($id) {
+
+        $users = $this->userRepository
+            ->getAllThatAreNotInConversation($id);
+
+        return $this->jsonCollection($users, new UserTransformer);
+    }
 }
