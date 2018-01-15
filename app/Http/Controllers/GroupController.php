@@ -87,6 +87,7 @@ class GroupController extends Controller
 
     public function group($id){
         $group = Group::find($id)->get();
+        $groups = Group::find($id)->name;
 
         $posts = [];
 

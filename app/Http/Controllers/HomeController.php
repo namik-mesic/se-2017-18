@@ -7,6 +7,13 @@ use App\Post;
 use App\User;
 use App\Group;
 use Illuminate\Support\Facades\Input;
+use App\GroupUser;
+use App\Http\Requests\CreateUserRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use Illuminate\Pagination\Paginator;
 
 class HomeController extends Controller
 {

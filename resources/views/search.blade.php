@@ -3,6 +3,7 @@
 
 
 @section('content')
+    <link href="{{ asset('css/search.css') }}" rel="stylesheet">
 <div class="container">
     <div class="row">
         <div class="col-md-6">
@@ -22,9 +23,7 @@
                             <tr>
                                 <td>
                                     <a href="{{ route('profile', $user['id']) }}">{{ $user['name'] }}</a>
-                                </td>
-                                <td>
-                                    <button>
+                                    <button class="join">
                                         Add Friend
                                     </button>
                                 </td>
@@ -51,11 +50,10 @@
                         <tbody>
                         @foreach($groups as $group)
                             <tr>
-                                <td>
+                                <td class="group-box">
                                     <a href="{{ route('group', $group['id']) }}">{{ $group['name'] }}</a>
-                                </td>
-                                <td>
-                                    <button>
+
+                                    <button class="join">
                                         Join Group
                                     </button>
                                 </td>

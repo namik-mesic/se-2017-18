@@ -36,11 +36,13 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
+
                         <li>
                             <form action="{{ action('HomeController@search') }}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="input-group">
-                                    <input class="form-control" required name="search" id="search">
+
+                                    <input class="form-control" required name="search" placeholder="Search users and groups" id="search">
                                     <span class="input-group-btn">
                                          <button class="btn btn-info pull-right">
                                             Search
@@ -58,6 +60,11 @@
                             <li><a href="{{ route('login') }}">Login</a></li>
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
+                                 <li>
+                                     <a href="#">
+                                        Create a group
+                                     </a>
+                                 </li>
                                 <li>
                                     <a href="#">
                                         {{ Auth::user()->name }} Profile

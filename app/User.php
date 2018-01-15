@@ -51,4 +51,5 @@ class User extends Authenticatable
     function files(){
         return $this->hasMany('App\File');
     }
+
 }

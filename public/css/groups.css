@@ -1,20 +1,40 @@
 .input-group{
 
-    width: 75%;
+    width: 74%;
     float: right;
 }
 .button-center {
-    width: 100px;
-    height: 50px;
-    margin: 30px;
+    width: 90%;
+    height: 40px;
+    margin: 15px;
     text-align: center;
 
 }
 .centralize {
     text-align: center;
+
 }
 
 .group-box {
 
     height: 100px;
+    text-align: left;
 }
+.welcome {
+    width: 22%;
+    float: left;
+
+}
+
+.download {
+
+    margin:10px;
+
+
+}
+.group-users {
+
+    height: 100px;
+    text-align: left;
+}
+

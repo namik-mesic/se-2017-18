@@ -9,7 +9,9 @@ class Group extends Model
     protected $fillable = [
         'id', 'name', 'image_url', 'description'
     ];
-
+    function group (){
+        return $this->hasMany('App\Group');
+    }
     function groupusers(){
         return $this->hasMany('App\GroupUser');
     }
