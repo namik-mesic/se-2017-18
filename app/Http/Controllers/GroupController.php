@@ -87,7 +87,6 @@ class GroupController extends Controller
 
     public function group($id){
         $group = Group::find($id)->get();
-        $groups = Group::find($id)->name;
 
         $posts = [];
 
@@ -100,6 +99,21 @@ class GroupController extends Controller
         $files = Group::find($id)->files;
 
         return view('group', compact('group', 'posts', 'members', 'files'));
+    }
+
+    public function createGroup () {
+        return view('creategroup');
+    }
+    public function storeGroup(Request $request) {
+        $group = new Group();
+
+        $group->name = $request->name;
+        $group->description = $request->description;
+        $group->image_url = '';
+
+        if($group->save()) {
+            return redirect()->back();
+        }
     }
 
 }

@@ -61,7 +61,7 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                                  <li>
-                                     <a href="#">
+                                     <a href="/creategroup">
                                         Create a group
                                      </a>
                                  </li>
