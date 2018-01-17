@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Upvote;
 use App\Post;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
+use Auth;
 
 class PostController extends Controller
 {
@@ -15,28 +14,48 @@ class PostController extends Controller
         $this->middleware('auth');
     }
 
-    public function create(){
+    public function create(Request $request){
+        $data = $request->all();
+        $data['user_id'] = Auth::user()->id;
 
+        $post = Post::create($data);
+
+        return redirect()->back();
     }
 
     public function edit(){
-
+        return view('home');
     }
 
     public function delete($id){
+        $post = Post::destroy($id);
 
+        return redirect()->back();
     }
 
-    public function change($id){
+    public function change(Request $request, $id){
+        $data = $request->all();
 
+        $post = Post::find($id)->update($data);
+
+        return redirect()->back();
     }
 
     public function like($id){
+        $user_id = Auth::user()->id;
 
+        $like = Upvote::create([
+            'post_id' => $id,
+            'user_id' => $user_id
+        ]);
+
+        return redirect()->back();
     }
 
     public function unlike($id){
+        $post_like = Upvote::where('post_id', '=', $id, 'AND', 'user_id', '=', Auth::user()->id)->delete();
 
+        return redirect()->back();
     }
 
 //

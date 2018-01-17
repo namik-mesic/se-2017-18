@@ -3,7 +3,7 @@
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class CommentTableSeeder extends Seeder
+class UpvoteTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,9 +12,9 @@ class CommentTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('comments')
+        DB::table('upvotes')
             ->delete();
 
-        factory(App\Comment::class)->times(50)->create();
+        factory(App\Upvote::class)->times(50)->create();
     }
 }

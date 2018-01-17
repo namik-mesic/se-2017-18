@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Friend;
+use App\Upvote;
+use Auth;
 use App\Post;
 use App\User;
+use DB;
+use function foo\func;
 use Illuminate\Support\Facades\Input;
 
 class HomeController extends Controller
@@ -26,15 +30,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // multiple relations possible
-        $posts = Post::with('user')->orderBy('created_at', 'desc')->get();
+        $posts = Post::query()
+            ->leftJoin('users', 'users.id', '=', 'posts.user_id')
+            ->leftJoin('friends', 'posts.user_id', '=','friends.friend_id')
+            ->where('friends.user_id', '=', Auth::user()->id)
+            ->where('friends.status', '=', 'yes')
+            ->orWhere('posts.user_id', '=', Auth::user()->id)
+            ->orderBy('posts.created_at', 'desc')
+            ->get(['posts.id','posts.user_id','posts.text', 'friends.friend_id', 'users.name']);
 
-        $comments = [];
-        $likes = [];
-
-        return view('home', compact(
-            'posts', 'likes', 'comments'
-        ));
+        return view('home', compact('posts'));
     }
 
     public function search(){
@@ -42,6 +47,6 @@ class HomeController extends Controller
 
         $users = User::where('name', 'LIKE', '%' . $search . '%')->get();
 
-        return view('search', compact('users'));
+        return view('search', compact('users', 'search'));
     }
 }

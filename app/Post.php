@@ -14,11 +14,7 @@ class Post extends Model
         return $this->belongsTo('App\User');
     }
 
-    function comments(){
-        return $this->hasMany('App\Comment');
-    }
-
-    function likes(){
-        return $this->hasMany('App\Like');
+    function upvotes(){
+        return $this->hasMany('App\Upvote');
     }
 }

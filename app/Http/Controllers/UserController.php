@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Friend;
 use App\Http\Requests\CreateUserRequest;
 use App\Post;
 use App\User;
@@ -26,15 +27,22 @@ class UserController extends Controller
 
         $user = User::find($id);
 
-        $posts = Post::with('user', 'comment.likes')->get();
+        $posts = Post::where('user_id', '=', $id)
+            ->join('users', 'posts.user_id', 'users.id')
+            ->get();
 
-        dd($posts);
+        $friends = Friend::where('user_id', '=', $id)
+                    ->join('users', 'friends.friend_id', '=', 'users.id')
+                    ->where('friends.status', '=', 'yes')
+                    ->get();
 
-        return view('profile', compact('user', 'posts'));
-    }
+        $requests = Friend::where('user_id', '=', Auth::user()->id)
+                    ->join('users', 'friends.friend_id', '=', 'users.id')
+                    ->where('friends.status', '=', 'no')
+                    ->get();
 
-    public function edit($id){
-        return view('profile');
+
+        return view('profile', compact('user', 'posts', 'friends', 'requests'));
     }
 
     public function delete($id){
@@ -50,15 +58,44 @@ class UserController extends Controller
     }
 
     public function request($id){
+        Friend::query()
+            ->create([
+               'user_id' => Auth::user()->id,
+                'friend_id' => $id,
+                'status' => 'no'
+            ]);
 
+        return redirect()->back();
     }
 
     public function accept($id){
+        Friend::query()
+            ->update([
+                'user_id' => $id,
+                'friend_id' => Auth::user()->id,
+                'status' => 'yes'
+            ]);
 
+        Friend::query()
+            ->create([
+                'user_id' => Auth::user()->id,
+                'friend_id' => $id,
+                'status' => 'yes'
+            ]);
+
+        return redirect()->back();
     }
 
     public function ignore($id){
+        Friend::where('user_id', '=', Auth::user()->id)
+            ->where('friend_id', '=', $id)
+            ->delete();
 
+        Friend::where('friend_id', '=', Auth::user()->id)
+            ->where('user_id', '=', $id)
+            ->delete();
+
+        return redirect()->back();
     }
 
 

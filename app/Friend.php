@@ -13,12 +13,4 @@ class Friend extends Model
     function user(){
         return $this->belongsTo('App\User');
     }
-
-    function post(){
-        return $this->belongsTo('App\Post');
-    }
-
-    function comment(){
-        return $this->belongsTo('App\Comment');
-    }
 }

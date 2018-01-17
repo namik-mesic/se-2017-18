@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePostLikesTable extends Migration
+class CreateUpvotesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreatePostLikesTable extends Migration
      */
     public function up()
     {
-        Schema::create('likes', function (Blueprint $table) {
+        Schema::create('upvotes', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('comment_id');
             $table->integer('user_id');
             $table->integer('post_id');
             $table->timestamps();
@@ -29,6 +28,6 @@ class CreatePostLikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('upvotes');
     }
 }

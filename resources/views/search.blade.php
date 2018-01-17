@@ -19,12 +19,7 @@
                         @foreach($users as $user)
                             <tr>
                                 <td>
-                                    <a href="{{ route('profile', $user->id) }}">{{ $user->name }}</a>
-                                </td>
-                                <td>
-                                    <button>
-                                        Add Friend
-                                    </button>
+                                    <a href="{{ route('profile_show', $user->id) }}">{{ $user->name }}</a>
                                 </td>
                             </tr>
                         @endforeach

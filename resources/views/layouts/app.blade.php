@@ -39,10 +39,10 @@
                     <ul class="nav navbar-nav">
                         <li>
                             <div>
-                                <form class="navbar-form" role="search" action="#" method="POST">
+                                <form class="navbar-form" role="search" action="{{ route('search') }}" method="POST">
                                     {{ csrf_field() }}
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search" name="search">
+                                        <input type="text" class="form-control" placeholder="" name="search">
                                         <div class="input-group-btn">
                                             <button class="btn btn-default" type="submit">Search</button>
                                         </div>
@@ -61,7 +61,12 @@
                             <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                                 <li>
-                                    <a href="#">
+                                    <a href="{{ route('home') }}">
+                                        Home
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('profile_show', Auth::user()->id) }}">
                                         Profile
                                     </a>
                                 </li>

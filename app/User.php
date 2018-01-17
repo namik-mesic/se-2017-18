@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -32,15 +33,32 @@ class User extends Authenticatable
         return $this->hasMany('App\Post');
     }
 
-    function comments(){
-        return $this->hasMany('App\Comment');
+    function likes(){
+        return $this->hasMany('App\Upvote');
     }
 
-    function likes(){
-        return $this->hasMany('App\Like');
-    }
 
     function friends(){
         return $this->hasMany('App\Friend');
+    }
+
+    function hasUpvote($post_id){
+        return Upvote::where('user_id', '=', Auth::user()->id)
+                    ->where('post_id', '=', $post_id)
+                    ->count() > 0;
+    }
+
+    function isFriend($friend_id){
+        return Friend::where('user_id', '=', Auth::user()->id)
+                    ->where('friend_id', '=', $friend_id)
+                    ->where('status', '=', 'yes')
+                    ->count() > 0;
+    }
+
+    function requestSent($friend_id){
+        return Friend::where('user_id', '=', Auth::user()->id)
+                ->where('friend_id', '=', $friend_id)
+                ->where('status', '=', 'no')
+                ->count() > 0;
     }
 }
